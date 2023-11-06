@@ -1,9 +1,10 @@
-# Online Store Fullstack Web Application
+# Online Store Fullstack
 
 This full-stack web application is built with React.js for the frontend and Medusa.js for the backend. It leverages various technologies and best practices to provide a seamless shopping experience.
 
-## Features:
+## Features and Technologies:
 - React.js
+- React Context
 - HTML & CSS
 - API Integration
 - Performance Optimization

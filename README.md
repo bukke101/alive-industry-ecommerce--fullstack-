@@ -6,6 +6,7 @@ Demo coming soon...
 ## Features and Technologies:
 - React.js
 - React Context
+- React Lazy Load
 - HTML & CSS
 - API Integration
 - Performance Optimization

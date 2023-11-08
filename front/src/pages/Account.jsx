@@ -25,11 +25,10 @@ export default function Account() {
   const { setFormData, countryData } = useContext(CountryContext);
   const { cart, setCart } = useContext(CartContext);
   const cartId = cart?.id;
-  // move to accountprovider? or make in 1 state??
   const [accountMessage, setAccountMessage] = useState("");
   const [showOrders, setShowOrders] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
   const [showShipping, setShowShipping] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleRegister = async (e) => {
     e.preventDefault();

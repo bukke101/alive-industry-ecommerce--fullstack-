@@ -16,15 +16,17 @@ import NotFound from "./components/notfound/NotFound";
 
 import "./style.css";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 60 * 24,
-      retry: 1,
-    },
-  },
-});
+const queryClient = new QueryClient();
+
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       refetchOnWindowFocus: false,
+//       staleTime: 1000 * 60 * 60 * 24,
+//       retry: 1,
+//     },
+//   },
+// });
 
 function App() {
   return (

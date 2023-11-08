@@ -33,39 +33,38 @@ export default function Dashboard({
   return (
     <div className="dashboard-wrapper">
       {results.isLoading && <Loading />}
-      {!results?.data?.length > 0 ? (
-        <div className="dashboard-header">
-          <h3>Welcome {user && user?.first_name}</h3>
-          <p>{user && user?.email}</p>
-        </div>
-      ) : (
-        <>
-          <div className="dashboard-header">
+      <div className="dashboard-header">
+        {!results?.data?.length > 0 ? (
+          <>
+            <h3>Welcome {user && user?.first_name}</h3>
+            <p>{user && user?.email}</p>
+          </>
+        ) : (
+          <>
             <h3>Hi, {results?.data[0]?.customer?.first_name}</h3>
             <p>{results?.data[0]?.email}</p>
-          </div>
-          <div className="dashboard-top-nav">
-            <button onClick={toggleOrders}>Orders</button>
-            <button onClick={toggleShipping}>Shipping Details</button>
-            <button className="logout-btn" onClick={handleLogOut}>
-              Log out
-            </button>
-          </div>
+          </>
+        )}
+      </div>
+      <div className="dashboard-top-nav">
+        <button onClick={toggleOrders}>Orders</button>
+        <button onClick={toggleShipping}>Shipping Details</button>
+        <button className="logout-btn" onClick={handleLogOut}>
+          Log out
+        </button>
+      </div>
 
-          <OrderList
-            results={results}
-            showOrders={showOrders}
-            selectedOrder={selectedOrder}
-            setSelectedOrder={setSelectedOrder}
-            countryData={countryData}
-          />
-        </>
-      )}
+      <OrderList
+        results={results}
+        showOrders={showOrders}
+        selectedOrder={selectedOrder}
+        setSelectedOrder={setSelectedOrder}
+        countryData={countryData}
+      />
       <CustomerDetails
         showShipping={showShipping}
         setShowShipping={setShowShipping}
       />
-      <div>Add Dashboard stuff here...</div>
       {results.isError && <span>Error fetching orders</span>}
     </div>
   );

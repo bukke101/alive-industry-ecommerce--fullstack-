@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { customerOrders } from "../../api/userOperations";
+import { customerOrders } from "../../api/accountOperations";
 import { AccountContext } from "../../context/AccountContext";
 import OrderList from "./OrderList";
-import CustomerDetails from "./CustomerDetails";
+import ShippingDetails from "./ShippingDetails";
 import Loading from "../loading/Loading";
 
 export default function Dashboard({
@@ -15,6 +15,10 @@ export default function Dashboard({
   countryData,
   showShipping,
   setShowShipping,
+  shippingAddress,
+  regions,
+  handleShippingAddress,
+  handleShippingInput,
 }) {
   const results = useQuery(["orders"], customerOrders);
   const { user } = useContext(AccountContext);
@@ -53,7 +57,6 @@ export default function Dashboard({
           Log out
         </button>
       </div>
-
       <OrderList
         results={results}
         showOrders={showOrders}
@@ -61,10 +64,18 @@ export default function Dashboard({
         setSelectedOrder={setSelectedOrder}
         countryData={countryData}
       />
-      <CustomerDetails
+      <ShippingDetails
         showShipping={showShipping}
         setShowShipping={setShowShipping}
+        shippingAddress={shippingAddress}
+        regions={regions}
+        handleShippingInput={handleShippingInput}
+        handleShippingAddress={handleShippingAddress}
       />
+      <div className="dashboard-hero">
+        Welcome to your personal page, Where you can view/manage all your
+        orders, add/edit a shipping address & personal info. Start Exploring
+      </div>
       {results.isError && <span>Error fetching orders</span>}
     </div>
   );

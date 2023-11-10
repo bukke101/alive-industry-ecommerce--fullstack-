@@ -9,7 +9,6 @@ export function AccountProvider({ children }) {
     first_name: "",
     last_name: "",
   });
-
   const [isLogIn, setIsLogIn] = useState(true);
   const [logInData, setLogInData] = useState({
     email: "",

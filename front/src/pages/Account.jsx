@@ -9,8 +9,8 @@ import {
   logInUtil,
   logOutUtil,
   inputChangeUtil,
+  addShippingUtil,
 } from "../utils/account/accountUtils";
-
 export default function Account() {
   const {
     user,
@@ -22,13 +22,27 @@ export default function Account() {
     setLogInData,
     setUser,
   } = useContext(AccountContext);
-  const { setFormData, countryData } = useContext(CountryContext);
+  const { setFormData, countryData, selectCountry, regions } =
+    useContext(CountryContext);
   const { cart, setCart } = useContext(CartContext);
   const cartId = cart?.id;
   const [accountMessage, setAccountMessage] = useState("");
   const [showOrders, setShowOrders] = useState(false);
   const [showShipping, setShowShipping] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const [shippingAddress, setShippingAddress] = useState({
+    company: "",
+    first_name: "",
+    last_name: "",
+    address_1: "",
+    address_2: "",
+    city: "",
+    country_code: "",
+    province: "",
+    postal_code: "",
+    phone: "",
+  });
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -52,7 +66,9 @@ export default function Account() {
       setUser,
       setFormData,
       setLogInData,
-      setAccountMessage
+      setAccountMessage,
+      selectCountry,
+      regions
     );
   };
   const handleLogOut = async () => {
@@ -61,6 +77,20 @@ export default function Account() {
 
   const handleInputChange = (name, value) => {
     inputChangeUtil(name, value, isLogIn, setLogInData, setRegisterData);
+  };
+
+  const handleShippingInput = (e) => {
+    const { name, value, type, checked } = e.target;
+    const newState = {
+      ...shippingAddress,
+      [name]: type === "checkbox" ? checked : value,
+    };
+    setShippingAddress(newState);
+  };
+
+  const handleShippingAddress = async (e) => {
+    e.preventDefault();
+    await addShippingUtil(shippingAddress, setFormData, regions, selectCountry);
   };
   return (
     <>
@@ -87,6 +117,10 @@ export default function Account() {
           countryData={countryData}
           showShipping={showShipping}
           setShowShipping={setShowShipping}
+          shippingAddress={shippingAddress}
+          regions={regions}
+          handleShippingInput={handleShippingInput}
+          handleShippingAddress={handleShippingAddress}
         />
       )}
     </>

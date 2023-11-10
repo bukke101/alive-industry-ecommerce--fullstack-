@@ -132,8 +132,16 @@ header .fa-times {
   width: 100%;
 }
 .home-col1 {
-  align-items: center;
-  margin: -1.863rem 0;
+  height: 300px;
+  padding: 20px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  background: url("./assets/images/ALIVEINDUSTRY-FTWTeamFrame.webp");
+  background-position: center;
+  background-size: cover;
+}
+.home-col1:hover {
+  filter: brightness(94%);
 }
 .home-col2 {
   padding: 1rem;
@@ -143,15 +151,11 @@ header .fa-times {
   align-items: center;
   margin-top: 6.188rem;
 }
-.home-col1 img,
 .home-col3 img {
   width: 50%;
 }
 .home-col3 img {
   padding: 1rem;
-}
-.home-col1 h3 {
-  padding-right: 0.313rem;
 }
 /**ABOUT**/
 .about-page {
@@ -276,6 +280,13 @@ header .fa-times {
   flex-direction: column;
   padding: 0.938rem;
 }
+.dashboard-hero {
+  width: 100%;
+  padding: 1.563rem 1rem;
+  background: #ffcc8d;
+  margin-top: 0.938rem;
+  border-radius: 0.313rem;
+}
 .dashboard-wrapper h3 {
   font-size: 0.875rem;
   padding-bottom: 0.313rem;
@@ -283,9 +294,10 @@ header .fa-times {
 .dashboard-wrapper .dashboard-header {
   display: flex;
   justify-content: space-between;
-  padding: 0.938rem;
+  padding: 0.3rem 0.938rem;
   align-items: center;
   font-size: 0.813rem;
+  border-bottom: 2px solid var(--color-secondary);
 }
 .dashboard-wrapper .dashboard-header h3 {
   padding: 0;
@@ -294,6 +306,7 @@ header .fa-times {
   display: flex;
   padding: 0 0.938rem;
   justify-content: flex-end;
+  border-bottom: 2px solid var(--color-secondary);
 }
 .dashboard-wrapper .dashboard-top-nav button {
   margin-left: 1.25rem;
@@ -311,7 +324,7 @@ header .fa-times {
   padding: 0.75rem;
   list-style: none;
   cursor: pointer;
-  width: 20rem;
+  width: 15rem;
   border-right: 2px solid var(--color-secondary);
 }
 .dashboard-wrapper .order-list .date {
@@ -325,7 +338,6 @@ header .fa-times {
 }
 .order-wrapper {
   display: flex;
-  border-top: 2px solid var(--color-secondary);
 }
 .order-wrapper .dashboard-order {
   display: flex;
@@ -334,8 +346,8 @@ header .fa-times {
   padding: 0.625rem;
 }
 .order-wrapper .dashboard-order .dashboard-order-top {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 0 0.313;
   list-style: none;
   font-size: 0.813rem;
@@ -347,8 +359,8 @@ header .fa-times {
   margin-top: 15px;
 }
 .order-wrapper .order-summary {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 /**MAIN**/
 .main-wrapper {
@@ -959,6 +971,18 @@ header .fa-times {
   .about-page {
     padding: 0.825rem;
   }
+  .dashboard-wrapper {
+    padding: 0;
+  }
+  .dashboard-wrapper .order-list {
+    width: 12.5rem;
+  }
+  .order-wrapper .dashboard-order .dashboard-order-top {
+    grid-template-columns: 1fr;
+  }
+  .order-wrapper .order-summary {
+    grid-template-columns: 1fr;
+  }
   .products-list {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -1031,15 +1055,19 @@ header .fa-times {
     margin-top: -1.7%;
   }
 }
+.typewriter {
+  color: var(--color-primary);
+}
 .typewriter h3 {
   overflow: hidden;
   white-space: nowrap;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   animation: typing 1s steps(40, end);
 }
 .typewriter p {
   overflow: hidden;
   white-space: nowrap;
+  padding-top: 0.2rem;
   animation: typing 1.3s steps(40, end);
 }
 @keyframes spin {

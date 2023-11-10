@@ -54,6 +54,29 @@ const customerOrders = async () => {
   }
 };
 
+const addShippingAddress = async (shippingAddress) => {
+  try {
+    const response = await medusa.customers.addresses.addAddress({
+      address: {
+        first_name: shippingAddress.first_name,
+        last_name: shippingAddress.last_name,
+        address_1: shippingAddress.address_1,
+        city: shippingAddress.city,
+        country_code: shippingAddress.country_code,
+        postal_code: shippingAddress.postal_code,
+        phone: shippingAddress.phone,
+        company: shippingAddress.company,
+        address_2: shippingAddress.address_2,
+        province: shippingAddress.province,
+      },
+    });
+    return response.customer;
+  } catch (error) {
+    console.error("Error adding shipping address:", error);
+    throw error;
+  }
+};
+
 const logOutUser = async () => {
   try {
     await medusa.auth.deleteSession();
@@ -63,4 +86,10 @@ const logOutUser = async () => {
   }
 };
 
-export { createCustomer, logInUser, logOutUser, customerOrders };
+export {
+  createCustomer,
+  logInUser,
+  logOutUser,
+  customerOrders,
+  addShippingAddress,
+};

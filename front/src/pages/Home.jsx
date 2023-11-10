@@ -1,34 +1,19 @@
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function Home() {
   return (
     <div className="home-page">
       <Link to="/products">
         <div className="home-col1">
-          <img src="../src/assets/images/ALIVEINDUSTRY-FTWTeamFrame.webp" />
           <div className="typewriter">
             <h3>F.T.W Frame</h3>
-            <p>&quot; redesigned from the Badlands frame&quot;</p>
+            <p>&quot;redesigned from the Badlands frame&quot;</p>
           </div>
         </div>
       </Link>
       <div className="home-col2">
         <img src="https://img.youtube.com/vi/pM51dEgN-MQ/0.jpg" />
         <img src="https://img.youtube.com/vi/2RhL6BcoKRA/0.jpg" />
-        {/* <iframe
-          src="https://www.youtube.com/embed/pM51dEgN-MQ?si=NOTDOKMOd-X3gEIb"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-
-        <iframe
-          src="https://www.youtube.com/embed/2RhL6BcoKRA?si=UdaMGtjpxxz3WEIU"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe> */}
       </div>
       <Link to="/products">
         <div className="home-col3">

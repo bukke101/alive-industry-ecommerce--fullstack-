@@ -15,6 +15,7 @@ Demo coming soon...
 
 ## To-Do:
 - Fix CSS
+- Add Account Details Page
 - Migrate to TypeScript
 - Continuous Improvement
 

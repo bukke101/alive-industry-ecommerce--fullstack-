@@ -22,8 +22,18 @@ export default function Checkout() {
     useContext(CartContext);
   const { user, setUser, setIsLogIn } = useContext(AccountContext);
   const cartId = cart?.id;
-  const { countryData, setCountryData, regions, formData, setFormData } =
-    useContext(CountryContext);
+  const {
+    countryData,
+    setCountryData,
+    regions,
+    formData,
+    setFormData,
+    countryDisplay,
+    toggleCheckoutCountry,
+    handleCountryChange,
+    isCheckout,
+    selectCountry,
+  } = useContext(CountryContext);
   const currencyCode = countryData?.currencyCode;
 
   const [shippingData, setShippingData] = useState({
@@ -43,6 +53,8 @@ export default function Checkout() {
     isPaymentOptionSelected: false,
   });
 
+  const [isAddress, setIsAddress] = useState(true);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     await formSubmitUtil(
@@ -52,7 +64,8 @@ export default function Checkout() {
       setShippingData,
       countryData,
       setCountryData,
-      setCart
+      setCart,
+      setFormData
     );
   };
 
@@ -89,12 +102,19 @@ export default function Checkout() {
     <div className="checkout-page">
       {cart?.items && (
         <div>
-          <CheckoutForm
-            regions={regions}
-            formData={formData}
-            setFormData={setFormData}
-            handleFormSubmit={handleFormSubmit}
-          />
+          {isAddress && (
+            <CheckoutForm
+              regions={regions}
+              formData={formData}
+              setFormData={setFormData}
+              handleFormSubmit={handleFormSubmit}
+              countryDisplay={countryDisplay}
+              toggleCheckoutCountry={toggleCheckoutCountry}
+              handleCountryChange={handleCountryChange}
+              isCheckout={isCheckout}
+              selectCountry={selectCountry}
+            />
+          )}
 
           {shippingData.options?.length > 0 && (
             <ShippingOptions

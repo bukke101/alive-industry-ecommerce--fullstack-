@@ -2,33 +2,19 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { CountryContext } from "../../context/CountryContext";
-import ReactCountryFlag from "react-country-flag";
+import CountriesList from "../countries/CountriesList";
 export default function FooterStoreNav() {
   const {
-    regions,
     countryDisplay,
     handleCountryChange,
     isFooter,
     toggleFooterCountry,
+    toggleFooterCountries,
+    regions,
     selectCountry,
-    toggleFooterCountrys,
   } = useContext(CountryContext);
   const { cart } = useContext(CartContext);
-  const countryList = regions.map((region) =>
-    region.countries.map((country) => (
-      <li
-        key={country.id}
-        onClick={() => selectCountry(country.iso_2, country.display_name)}
-      >
-        <ReactCountryFlag
-          countryCode={country.iso_2}
-          style={{ marginRight: "12px", marginLeft: "10px" }}
-          svg
-        />
-        {country.display_name}
-      </li>
-    ))
-  );
+  const countries = regions.map((region) => region.countries);
 
   const countryIcon =
     countryDisplay !== "country" ? (
@@ -75,9 +61,9 @@ export default function FooterStoreNav() {
         </div>
         <ul
           className={`store-county  ${isFooter && "active"}`}
-          onMouseLeave={toggleFooterCountrys}
+          onMouseLeave={toggleFooterCountries}
         >
-          {countryList}
+          <CountriesList countries={countries} selectCountry={selectCountry} />
         </ul>
       </div>
     </div>

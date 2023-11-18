@@ -14,6 +14,7 @@ const updateCartForm = async (
       billing_address: billingAddress,
       region_id: countryData?.selectedRegionId,
     });
+    console.log(updatedCart.cart);
     return updatedCart.cart;
   } catch (error) {
     console.error("Error updating shipping address:", error);

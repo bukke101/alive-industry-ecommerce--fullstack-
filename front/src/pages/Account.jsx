@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/account/LoginForm";
 import Dashboard from "../components/account/Dashboard";
 import { AccountContext } from "../context/AccountContext";
@@ -8,9 +9,12 @@ import {
   registerUtil,
   logInUtil,
   logOutUtil,
-  inputChangeUtil,
+  addAddressUtil,
+  deleteAddressUtil,
+  updateAddressUtil,
+  updateProfileUtil,
+  updateFormUtil,
 } from "../utils/account/accountUtils";
-
 export default function Account() {
   const {
     user,
@@ -21,14 +25,25 @@ export default function Account() {
     setRegisterData,
     setLogInData,
     setUser,
+    updateForm,
+    setUpdateForm,
+    shippingAddress,
+    setShippingAddress,
   } = useContext(AccountContext);
-  const { setFormData, countryData } = useContext(CountryContext);
+
+  const { setFormData, countryData, selectCountry, regions } =
+    useContext(CountryContext);
+
+  const navigate = useNavigate();
+
   const { cart, setCart } = useContext(CartContext);
   const cartId = cart?.id;
+
   const [accountMessage, setAccountMessage] = useState("");
-  const [showOrders, setShowOrders] = useState(false);
-  const [showShipping, setShowShipping] = useState(false);
+  // destructre or move??
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [profile, setProfile] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -42,7 +57,6 @@ export default function Account() {
       setAccountMessage
     );
   };
-
   const handleLogIn = async (e) => {
     e.preventDefault();
     await logInUtil(
@@ -52,21 +66,57 @@ export default function Account() {
       setUser,
       setFormData,
       setLogInData,
-      setAccountMessage
+      setAccountMessage,
+      selectCountry,
+      regions
     );
   };
   const handleLogOut = async () => {
-    await logOutUtil(setUser, setIsLogIn, setFormData, setSelectedOrder);
+    await logOutUtil(
+      setUser,
+      setIsLogIn,
+      setFormData,
+      setSelectedOrder,
+      setShippingAddress,
+      setSelectedAddress
+    );
+    navigate("/products");
   };
-
-  const handleInputChange = (name, value) => {
-    inputChangeUtil(name, value, isLogIn, setLogInData, setRegisterData);
+  const handleShippingAddress = async (e) => {
+    e.preventDefault();
+    if (selectedAddress) {
+      await updateAddressUtil(
+        selectedAddress,
+        shippingAddress,
+        setUser,
+        setShippingAddress
+      );
+    } else {
+      await addAddressUtil(
+        shippingAddress,
+        setFormData,
+        setUser,
+        regions,
+        selectCountry,
+        setShippingAddress
+      );
+    }
+  };
+  const handleUpdateAddress = (address) => {
+    updateFormUtil(setSelectedAddress, address, setShippingAddress);
+  };
+  const handleDeleteAddress = async (addressId) => {
+    await deleteAddressUtil(addressId, setUser, setFormData);
+  };
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    await updateProfileUtil(updateForm, setUser, setUpdateForm);
+    setProfile(false);
   };
   return (
     <>
       {!user ? (
         <LoginForm
-          handleInputChange={handleInputChange}
           logInData={logInData}
           logIn={handleLogIn}
           registerData={registerData}
@@ -80,13 +130,23 @@ export default function Account() {
       ) : (
         <Dashboard
           handleLogOut={handleLogOut}
-          showOrders={showOrders}
-          setShowOrders={setShowOrders}
           selectedOrder={selectedOrder}
           setSelectedOrder={setSelectedOrder}
           countryData={countryData}
-          showShipping={showShipping}
-          setShowShipping={setShowShipping}
+          shippingAddress={shippingAddress}
+          setShippingAddress={setShippingAddress}
+          regions={regions}
+          handleShippingAddress={handleShippingAddress}
+          handleDeleteAddress={handleDeleteAddress}
+          handleUpdateAddress={handleUpdateAddress}
+          user={user}
+          handleUpdateProfile={handleUpdateProfile}
+          updateForm={updateForm}
+          setUpdateForm={setUpdateForm}
+          selectedAddress={selectedAddress}
+          profile={profile}
+          setProfile={setProfile}
+          setSelectedAddress={setSelectedAddress}
         />
       )}
     </>

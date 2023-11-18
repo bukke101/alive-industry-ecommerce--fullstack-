@@ -1,4 +1,4 @@
-const initialState = {
+const initialCheckoutState = {
   company: "",
   first_name: "",
   last_name: "",
@@ -23,4 +23,24 @@ const initialState = {
   same_as_shipping: true,
   discountCode: "",
 };
-export { initialState };
+const initialLoginState = {
+  email: "",
+  password: "",
+};
+const initialRegisterState = {
+  email: "",
+  password: "",
+  first_name: "",
+  last_name: "",
+};
+const initialUpdateSate = {
+  first_name: "",
+  last_name: "",
+  email: "",
+};
+export {
+  initialCheckoutState,
+  initialLoginState,
+  initialRegisterState,
+  initialUpdateSate,
+};

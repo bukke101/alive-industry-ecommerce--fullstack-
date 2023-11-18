@@ -2,7 +2,7 @@ import { inputUtil, countryUtil, billingUtil, formUtil } from "./formUtils";
 import { shippingUtil } from "./shippingUtils";
 import { paymentUtil } from "./paymentUtils";
 import { completeCart } from "../../api/cartOperations";
-import { initialState } from "./initialCheckoutState";
+import { initialCheckoutState } from "../common/initialState";
 
 const formSubmitUtil = async (
   cartId,
@@ -12,7 +12,8 @@ const formSubmitUtil = async (
   selectedRegionId,
   countryData,
   setCountryData,
-  setCart
+  setCart,
+  setFormData
 ) => {
   await formUtil(
     cartId,
@@ -22,7 +23,8 @@ const formSubmitUtil = async (
     selectedRegionId,
     countryData,
     setCountryData,
-    setCart
+    setCart,
+    setFormData
   );
 };
 
@@ -83,7 +85,7 @@ const checkoutUtil = async (
         currencyCode: "",
         selectedRegionId: "",
       });
-      setFormData(initialState);
+      setFormData(initialCheckoutState);
     } else {
       console.error("Error completing cart:", data);
     }

@@ -1,4 +1,4 @@
-function formatPrice(amount, currencyCode) {
+const formatPrice = (amount, currencyCode) => {
   currencyCode = ["usd", "jpy", "eur", "gbp"].includes(currencyCode)
     ? currencyCode
     : "eur";
@@ -6,5 +6,6 @@ function formatPrice(amount, currencyCode) {
     style: "currency",
     currency: currencyCode,
   }).format(currencyCode === "jpy" ? amount : amount / 100);
-}
+};
+
 export { formatPrice };

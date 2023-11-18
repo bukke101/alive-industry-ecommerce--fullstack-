@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchRegions from "../api/fetchRegions";
-import { countryChangeUtil } from "../utils/checkout/checkoutUtils";
+import { countryChangeUtil } from "../utils/account/countryUtils";
 import { initialCheckoutState } from "../utils/common/initialState";
 
 export const CountryContext = createContext();

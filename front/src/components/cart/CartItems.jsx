@@ -11,6 +11,41 @@ export default function CartItems({
   shippingData,
   user,
 }) {
+  const renderQuantitySelect = (item) =>
+    isCartPage && (
+      <div>
+        Quantity:
+        <select
+          value={item.quantity}
+          onChange={(e) => handleUpdateQuantity(item.id, e.target.value)}
+        >
+          {Array.from({ length: 10 }, (_, index) => (
+            <option key={index} value={index + 1}>
+              {index + 1}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+
+  const renderRemoveBtn = (item) =>
+    isCartPage && (
+      <button onClick={() => handleDelete(item.id)} className="remove-btn">
+        Remove
+      </button>
+    );
+
+  const renderSignIn = () =>
+    isCartPage &&
+    cartData?.items.length > 0 && (
+      <div className="cart-sign-in">
+        <Link to="/products" className="back-btn">
+          &larr; <span>back to store</span>
+        </Link>
+        {!user && <Link to="/account">Sign in</Link>}
+      </div>
+    );
+
   const cartItems = cartData?.items?.map((item) => (
     <div key={item.id} className="cart-item">
       <img src={item.thumbnail} alt={item.title} />
@@ -22,50 +57,18 @@ export default function CartItems({
             </Link>
           </h3>
         </li>
-        <li>
-          {`${item.quantity}x - ${formatPrice(
-            item.unit_price * item.quantity,
-            currencyCode
-          )}`}
-        </li>
-
-        {isCartPage && (
-          <div>
-            {`Quantity: `}
-            {
-              <select
-                value={item.quantity}
-                onChange={(e) => handleUpdateQuantity(item.id, e.target.value)}
-              >
-                {Array.from({ length: 10 }, (_, index) => (
-                  <option key={index} value={index + 1}>
-                    {index + 1}
-                  </option>
-                ))}
-              </select>
-            }
-          </div>
-        )}
-
-        {isCartPage && (
-          <button onClick={() => handleDelete(item.id)} className="remove-btn">
-            Remove
-          </button>
-        )}
+        <li>{`${item.quantity}x - ${formatPrice(
+          item.unit_price * item.quantity,
+          currencyCode
+        )}`}</li>
+        {renderQuantitySelect(item)}
+        {renderRemoveBtn(item)}
       </ul>
     </div>
   ));
-
   return (
     <div className="cart-items">
-      {isCartPage && cartData?.items.length > 0 && (
-        <div className="cart-sign-in">
-          <Link to="/products" className="back-btn">
-            &larr; <span>back to store</span>
-          </Link>
-          {!user && <Link to="/account">Sign in</Link>}
-        </div>
-      )}
+      {renderSignIn()}
       {cartItems}
       <div className="checkout-details-wrapper">
         <CartSubtotal
@@ -74,17 +77,6 @@ export default function CartItems({
           isCartPage={isCartPage}
           shippingData={shippingData}
         />
-        {cartData && cartData.shipping_address && (
-          <div>
-            <Link>Edit</Link>
-            <p>{`${cartData.shipping_address.first_name} ${cartData.shipping_address.last_name}`}</p>
-            <p>{cartData.email}</p>
-            <p>{cartData.shipping_address.address_1}</p>
-            <p>{cartData.shipping_address.address_2}</p>
-            <p>{`${cartData.shipping_address.postal_code}, ${cartData.shipping_address.city}`}</p>
-            <p>{`${cartData.shipping_address.province}, ${cartData.shipping_address.country_code}`}</p>
-          </div>
-        )}
       </div>
       {isCartPage &&
         (cartData?.items.length > 0 ? (

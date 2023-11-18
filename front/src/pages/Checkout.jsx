@@ -113,6 +113,7 @@ export default function Checkout() {
               handleCountryChange={handleCountryChange}
               isCheckout={isCheckout}
               selectCountry={selectCountry}
+              cartData={cart}
             />
           )}
 

@@ -40,10 +40,8 @@ export default function FooterStoreNav() {
       </div>
       <div>
         <NavLink to="/cart">
-          <div>
-            {cart && cart.items.length > 0 && <div className="badge">+</div>}
-            <i className="fa fa-shopping-basket" />
-          </div>
+          <i className="fa fa-shopping-basket" />
+          {cart && cart.items.length > 0 && <span className="badge">+</span>}
         </NavLink>
       </div>
       <div>

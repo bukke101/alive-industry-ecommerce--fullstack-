@@ -906,20 +906,18 @@ header .top-menu-contact .social-icons i:hover {
 }
 .badge {
   animation: fadeIn 0.7s;
-  background-color: var(--color-red);
-  width: 0.838rem;
   border-radius: 30%;
   font-size: 0.625rem;
-  color: white;
-  position: absolute;
-  margin-left: 9.6%;
-  margin-top: -0.8%;
+  background-color: var(--color-red);
+  color: var(--color-white);
+  padding: 0 3px;
+  vertical-align: top;
+  margin-left: -0.5rem;
+}
+.fa-shopping-basket {
+  color: var(--color-white);
 }
 @media (max-width: 1024px) {
-  .badge {
-    margin-left: 9.5%;
-    margin-top: -1%;
-  }
 }
 @media (max-width: 768px) {
   .login-wrapper {
@@ -1014,20 +1012,11 @@ header .top-menu-contact .social-icons i:hover {
   .footer-wrapper .bottom-contact li a {
     font-size: 0.73rem;
   }
-  .badge {
-    margin-left: 9.4%;
-    margin-top: -1.2%;
-    width: 0.738rem;
-  }
   .completed-order .order-details {
     width: 100%;
   }
 }
 @media (max-width: 600px) {
-  .badge {
-    margin-left: 9.2%;
-    margin-top: -1.7%;
-  }
 }
 .typewriter {
   color: var(--color-primary);

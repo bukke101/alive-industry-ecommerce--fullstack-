@@ -1,4 +1,5 @@
 import { updateCartForm } from "../../api/updateCartData";
+import { initialCheckoutState } from "../common/initialState";
 
 const formUtil = async (
   cartId,
@@ -7,7 +8,8 @@ const formUtil = async (
   setShippingData,
   countryData,
   setCountryData,
-  setCart
+  setCart,
+  setFormData
 ) => {
   const shippingAddress = {
     company: formData.company,
@@ -43,7 +45,9 @@ const formUtil = async (
     formData,
     countryData
   );
+  console.log(updatedCart);
   setCart(updatedCart);
+  setFormData(initialCheckoutState);
   const fetchedOptions = await fetchShippingOptions(cartId);
   setShippingData((prevData) => ({
     ...prevData,

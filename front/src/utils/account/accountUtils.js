@@ -3,9 +3,17 @@ import {
   logInUser,
   logOutUser,
   addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
+  updateProfile,
 } from "../../api/accountOperations";
+import { addCountryUtil } from "./countryUtils";
 import { removeMessage } from "../common/genralUtils";
-import { initialState } from "../checkout/initialCheckoutState";
+import {
+  initialCheckoutState,
+  initialRegisterState,
+  initialLoginState,
+} from "../common/initialState";
 const registerUtil = async (
   registerData,
   cartId,
@@ -21,17 +29,12 @@ const registerUtil = async (
       setUser(registeredUser);
       setFormData((prevData) => ({
         ...prevData,
-        email: registeredUser?.email,
-        first_name: registeredUser?.first_name,
-        last_name: registeredUser?.last_name,
+        email: registeredUser.email,
+        first_name: registeredUser.first_name,
+        last_name: registeredUser.last_name,
       }));
     }
-    setRegisterData({
-      email: "",
-      password: "",
-      first_name: "",
-      last_name: "",
-    });
+    setRegisterData(initialRegisterState);
   } catch (error) {
     setAccountMessage("A customer with the given email already exists");
     removeMessage(setAccountMessage);
@@ -52,86 +55,108 @@ const logInUtil = async (
   try {
     const loggedInUser = await logInUser(logInData, cartId, setCart);
     if (loggedInUser) {
-      const countryList = regions?.find((region) =>
-        region.countries.some(
-          (country) =>
-            country.iso_2 === loggedInUser?.shipping_addresses[0]?.country_code
-        )
-      );
-
-      if (countryList) {
-        const selectedCountry = countryList.countries.find(
-          (country) =>
-            country.iso_2 === loggedInUser?.shipping_addresses[0]?.country_code
-        );
-
-        selectCountry(
-          loggedInUser?.shipping_addresses[0]?.country_code,
-          selectedCountry?.display_name
-        );
-      }
+      addCountryUtil(loggedInUser, regions, selectCountry);
       setUser(loggedInUser);
       setFormData((prevData) => ({
         ...prevData,
-        email: loggedInUser?.email,
-        first_name: loggedInUser?.first_name,
-        last_name: loggedInUser?.last_name,
-        postal_code: loggedInUser?.shipping_addresses[0]?.postal_code,
-        province: loggedInUser?.shipping_addresses[0]?.province,
-        city: loggedInUser?.shipping_addresses[0]?.city,
-        address_1: loggedInUser?.shipping_addresses[0]?.address_1,
-        address_2: loggedInUser?.shipping_addresses[0]?.address_2,
+        email: loggedInUser.email,
+        first_name: loggedInUser.first_name,
+        last_name: loggedInUser.last_name,
+        postal_code: loggedInUser.shipping_addresses[0]?.postal_code,
+        province: loggedInUser.shipping_addresses[0]?.province,
+        city: loggedInUser.shipping_addresses[0]?.city,
+        address_1: loggedInUser.shipping_addresses[0]?.address_1,
+        address_2: loggedInUser.shipping_addresses[0]?.address_2,
       }));
     }
-    setLogInData({
-      email: "",
-      password: "",
-    });
+    setLogInData(initialLoginState);
   } catch (error) {
     setAccountMessage("These credentials do not match our records");
     removeMessage(setAccountMessage);
   }
 };
 
-const addShippingUtil = async (
+const addAddressUtil = async (
   shippingAddress,
   setFormData,
+  setUser,
   regions,
-  selectCountry
+  selectCountry,
+  setShippingAddress
 ) => {
   try {
-    const response = await addShippingAddress(shippingAddress);
-    if (response.shipping_addresses && response.shipping_addresses.length < 2) {
-      const countryList = regions?.find((region) =>
-        region.countries.some(
-          (country) =>
-            country.iso_2 === response?.shipping_addresses[0]?.country_code
-        )
-      );
-      if (countryList) {
-        const selectedCountry = countryList.countries.find(
-          (country) =>
-            country.iso_2 === response?.shipping_addresses[0]?.country_code
-        );
-        selectCountry(
-          response?.shipping_addresses[0]?.country_code,
-          selectedCountry?.display_name
-        );
-      }
+    const updatedAddress = await addShippingAddress(shippingAddress);
+    if (updatedAddress && updatedAddress.shipping_addresses.length < 2) {
+      addCountryUtil(updatedAddress, regions, selectCountry);
       setFormData((prevData) => ({
         ...prevData,
-        email: response?.email,
+        email: updatedAddress.email,
         first_name: shippingAddress.first_name,
         last_name: shippingAddress.last_name,
         postal_code: shippingAddress.postal_code,
         province: shippingAddress.province,
         city: shippingAddress.city,
+        country_code: shippingAddress.country_code,
         address_1: shippingAddress.address_1,
         address_2: shippingAddress.address_2,
       }));
     }
+    setUser(updatedAddress);
+    setShippingAddress(initialCheckoutState);
   } catch (error) {
     console.log(error);
+  }
+};
+
+const updateAddressUtil = async (
+  selectedAddress,
+  shippingAddress,
+  setUser,
+  setShippingAddress
+) => {
+  try {
+    await updateShippingAddress(
+      selectedAddress,
+      shippingAddress,
+      setUser,
+      setShippingAddress
+    );
+    setShippingAddress(initialCheckoutState);
+  } catch (error) {
+    error;
+  }
+};
+
+const updateFormUtil = (setSelectedAddress, address, setShippingAddress) => {
+  setSelectedAddress(address);
+  setShippingAddress((prevData) => ({
+    ...prevData,
+    first_name: address.first_name,
+    last_name: address.last_name,
+    postal_code: address.postal_code,
+    province: address.province,
+    city: address.city,
+    country_code: address.country_code,
+    address_1: address.address_1,
+    address_2: address.address_2,
+  }));
+};
+
+const deleteAddressUtil = async (addressId, setUser, setFormData) => {
+  try {
+    const updatedUser = await deleteShippingAddress(addressId);
+    setUser(updatedUser);
+    setFormData(initialCheckoutState);
+  } catch (error) {
+    error;
+  }
+};
+
+const updateProfileUtil = async (updateForm, setUser, setUpdateForm) => {
+  try {
+    await updateProfile(updateForm, setUser, setUpdateForm);
+  } catch (error) {
+    error;
   }
 };
 
@@ -139,16 +164,19 @@ const logOutUtil = async (
   setUser,
   setIsLogIn,
   setFormData,
-  setSelectedOrder
+  setSelectedOrder,
+  setShippingAddress,
+  setSelectedAddress
 ) => {
   await logOutUser();
   setUser(null);
   setIsLogIn(true);
-  setFormData(initialState);
+  setFormData(initialCheckoutState);
   setSelectedOrder(null);
+  setShippingAddress(initialCheckoutState), setSelectedAddress(null);
 };
 
-const inputChangeUtil = (
+const loginInputUtil = (
   name,
   value,
   isLogIn,
@@ -169,6 +197,10 @@ export {
   registerUtil,
   logInUtil,
   logOutUtil,
-  inputChangeUtil,
-  addShippingUtil,
+  loginInputUtil,
+  addAddressUtil,
+  updateAddressUtil,
+  deleteAddressUtil,
+  updateProfileUtil,
+  updateFormUtil,
 };

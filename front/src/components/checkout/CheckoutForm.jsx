@@ -1,22 +1,18 @@
-import { useContext } from "react";
 import BillingForm from "./BillingForm";
 import ShippingForm from "./ShippingForm";
 import { inputChangeUtil } from "../../utils/checkout/checkoutUtils";
-import { CountryContext } from "../../context/CountryContext";
+
 export default function CheckoutForm({
   formData,
   setFormData,
-  regions,
   handleFormSubmit,
+  countryDisplay,
+  toggleCheckoutCountry,
+  handleCountryChange,
+  isCheckout,
+  regions,
+  selectCountry,
 }) {
-  const {
-    countryDisplay,
-    toggleCheckoutCountry,
-    handleCountryChange,
-    selectCountry,
-    isCheckout,
-  } = useContext(CountryContext);
-
   const handleInputChange = (e) => {
     inputChangeUtil(e, formData, setFormData);
   };
@@ -28,11 +24,11 @@ export default function CheckoutForm({
           handleInputChange={handleInputChange}
           handleCountryChange={handleCountryChange}
           formData={formData}
-          regions={regions}
           countryDisplay={countryDisplay}
           toggleDropdown={toggleCheckoutCountry}
           isCheckout={isCheckout}
           selectCountry={selectCountry}
+          regions={regions}
         />
         <BillingForm
           formData={formData}

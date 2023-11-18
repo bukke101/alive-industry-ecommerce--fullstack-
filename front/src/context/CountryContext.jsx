@@ -2,14 +2,14 @@ import { createContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchRegions from "../api/fetchRegions";
 import { countryChangeUtil } from "../utils/checkout/checkoutUtils";
-import { initialState } from "../utils/checkout/initialCheckoutState";
+import { initialCheckoutState } from "../utils/common/initialState";
 
 export const CountryContext = createContext();
 export function CountryProvider({ children }) {
   const results = useQuery(["regions"], fetchRegions);
   const regions = results?.data ?? [];
 
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(initialCheckoutState);
   const [countryDisplay, setCountryDisplay] = useState("country");
 
   const [countryData, setCountryData] = useState({
@@ -24,7 +24,7 @@ export function CountryProvider({ children }) {
   const toggleFooterCountry = () => {
     setIsFooter(!isFooter);
   };
-  const toggleFooterCountrys = () => {
+  const toggleFooterCountries = () => {
     if (isFooter) {
       toggleFooterCountry();
     }
@@ -66,7 +66,7 @@ export function CountryProvider({ children }) {
         toggleFooterCountry,
         toggleCheckoutCountry,
         selectCountry,
-        toggleFooterCountrys,
+        toggleFooterCountries,
       }}
     >
       {children}

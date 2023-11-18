@@ -5,14 +5,10 @@ import HeaderMenu from "./HeaderMenu";
 export default function Header() {
   const [showNavbar, setShowNavbar] = useState(false);
 
-  const handleShowNavbar = () => {
-    setShowNavbar(!showNavbar);
-  };
+  const handleShowNavbar = () => setShowNavbar(!showNavbar);
 
   const handleCloseNavbar = () => {
-    if (showNavbar) {
-      handleShowNavbar();
-    }
+    if (showNavbar) handleShowNavbar();
   };
 
   return (

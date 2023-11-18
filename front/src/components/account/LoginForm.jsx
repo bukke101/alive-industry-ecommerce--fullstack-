@@ -1,7 +1,8 @@
-import { useState } from "react";
 import RegisterForm from "./RegisterForm";
+import PasswordInput from "./PasswordInput";
+import { loginInputUtil } from "../../utils/account/accountUtils";
+import { initialRegisterState } from "../../utils/common/initialState";
 export default function LoginForm({
-  handleInputChange,
   logInData,
   logIn,
   registerData,
@@ -12,15 +13,10 @@ export default function LoginForm({
   setRegisterData,
   setLogInData,
 }) {
-  const [type, setType] = useState("password");
-
-  const handleToggle = () => {
-    if (type === "password") {
-      setType("text");
-    } else {
-      setType("password");
-    }
+  const handleLoginInput = (name, value) => {
+    loginInputUtil(name, value, isLogIn, setLogInData, setRegisterData);
   };
+
   return (
     <div className="login-wrapper">
       {isLogIn ? (
@@ -31,34 +27,14 @@ export default function LoginForm({
             id="email"
             name="email"
             value={logInData.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
+            onChange={(e) => handleLoginInput("email", e.target.value)}
             placeholder="Email"
             required
           />
-          <div className="password">
-            <input
-              type={type}
-              id="password"
-              name="password"
-              value={logInData.password}
-              onChange={(e) => handleInputChange("password", e.target.value)}
-              placeholder="Password"
-              required
-            />
-            {type === "password" ? (
-              <i
-                className="fa fa-eye"
-                aria-hidden="true"
-                onClick={handleToggle}
-              />
-            ) : (
-              <i
-                className="fa fa-eye-slash"
-                aria-hidden="true"
-                onClick={handleToggle}
-              />
-            )}
-          </div>
+          <PasswordInput
+            value={logInData.password}
+            onChange={(e) => handleLoginInput("password", e.target.value)}
+          />
           <button type="submit" disabled="">
             Sign in
           </button>
@@ -66,13 +42,7 @@ export default function LoginForm({
             Not a member?
             <span
               onClick={() => {
-                setIsLogIn(!isLogIn),
-                  setRegisterData({
-                    email: "",
-                    password: "",
-                    first_name: "",
-                    last_name: "",
-                  });
+                setIsLogIn(!isLogIn), setRegisterData(initialRegisterState);
               }}
             >
               Join
@@ -82,7 +52,7 @@ export default function LoginForm({
       ) : (
         <RegisterForm
           registerData={registerData}
-          handleInputChange={handleInputChange}
+          handleLoginInput={handleLoginInput}
           isLogIn={isLogIn}
           setIsLogIn={setIsLogIn}
           message={message}

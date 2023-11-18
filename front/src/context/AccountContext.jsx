@@ -1,19 +1,20 @@
 import { createContext, useState } from "react";
+import {
+  initialLoginState,
+  initialRegisterState,
+  initialUpdateSate,
+  initialCheckoutState,
+} from "../utils/common/initialState";
 
 export const AccountContext = createContext();
 export function AccountProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [registerData, setRegisterData] = useState({
-    email: "",
-    password: "",
-    first_name: "",
-    last_name: "",
-  });
+  const [registerData, setRegisterData] = useState(initialRegisterState);
+
   const [isLogIn, setIsLogIn] = useState(true);
-  const [logInData, setLogInData] = useState({
-    email: "",
-    password: "",
-  });
+  const [logInData, setLogInData] = useState(initialLoginState);
+  const [shippingAddress, setShippingAddress] = useState(initialCheckoutState);
+  const [updateForm, setUpdateForm] = useState(initialUpdateSate);
 
   return (
     <AccountContext.Provider
@@ -26,6 +27,10 @@ export function AccountProvider({ children }) {
         setIsLogIn,
         logInData,
         setLogInData,
+        updateForm,
+        setUpdateForm,
+        shippingAddress,
+        setShippingAddress,
       }}
     >
       {children}

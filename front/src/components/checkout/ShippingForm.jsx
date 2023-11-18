@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import ReactCountryFlag from "react-country-flag";
+import CountriesList from "../countries/CountriesList";
 
 export default function ShippingForm({
   handleInputChange,
   handleCountryChange,
-  regions,
   countryDisplay,
   toggleDropdown,
   isCheckout,
-  selectCountry,
   formData,
+  regions,
+  selectCountry,
 }) {
   const {
     email,
@@ -24,21 +25,8 @@ export default function ShippingForm({
     address_2,
     company,
   } = formData;
-  const countryList = regions.map((region) =>
-    region.countries.map((country) => (
-      <li
-        key={country.id}
-        onClick={() => selectCountry(country.iso_2, country.display_name)}
-      >
-        <ReactCountryFlag
-          countryCode={country.iso_2}
-          style={{ marginRight: "5px", marginLeft: "5px" }}
-          svg
-        />
-        {country.display_name}
-      </li>
-    ))
-  );
+
+  const countries = regions.map((region) => region.countries);
   return (
     <div className="shipping-form">
       <Link to="/cart" className="back-btn">
@@ -67,7 +55,14 @@ export default function ShippingForm({
             <i className="fa fa-angle-down"></i>
           </div>
         </div>
-        {isCheckout && <ul className="country-list">{countryList}</ul>}
+        {isCheckout && (
+          <ul className="country-list">
+            <CountriesList
+              countries={countries}
+              selectCountry={selectCountry}
+            />
+          </ul>
+        )}
       </div>
 
       <div className="fullname">

@@ -1,3 +1,4 @@
+import CountriesList from "../countries/CountriesList";
 import { billingCountryUtil } from "../../utils/checkout/checkoutUtils";
 export default function BillingForm({
   formData,
@@ -20,6 +21,8 @@ export default function BillingForm({
   const handleBillingCountry = (e) => {
     billingCountryUtil(e, formData, setFormData);
   };
+
+  const countriesOption = regions.map((region) => region.countries);
 
   return (
     <>
@@ -47,13 +50,7 @@ export default function BillingForm({
               onChange={handleBillingCountry}
             >
               <option value="">Country</option>
-              {regions.map((region) =>
-                region.countries.map((country) => (
-                  <option key={country.id} value={country.iso_2}>
-                    {country.display_name}
-                  </option>
-                ))
-              )}
+              <CountriesList countries={countriesOption} asOption />
             </select>
           </div>
           <div className="fullname">

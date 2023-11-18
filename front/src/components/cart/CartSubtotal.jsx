@@ -13,28 +13,26 @@ export default function CartSubtotal({
   const discountAmount = discountData?.discountAmount;
   const selectedShippingOption = shippingData?.selectedShippingOption;
 
-  const { subtotal, taxes, shipping, total, discount } = calculateCartUtil(
+  const { subtotal, taxes, shipping, total } = calculateCartUtil(
     cartData,
     selectedShippingOption,
     discountAmount
   );
+  const formatCurrency = (value) => formatPrice(value, currencyCode);
 
   return subtotal ? (
     <div className="cart-total">
       <ul>
-        <li>{`Subtotal: ${formatPrice(subtotal, currencyCode)}`}</li>
+        <li>{`Subtotal: ${formatCurrency(subtotal)}`}</li>
         {!isCartPage && (
           <>
             <li>
               {`Shipping:
-                  ${formatPrice(shipping, currencyCode)}`}
+                  ${formatCurrency(shipping)}`}
             </li>
-            <li>{`Taxes: ${formatPrice(taxes, currencyCode)}`}</li>
-            {discountAmount > 0 && (
-              // <li>{`Discount: ${formatPrice(discount, currencyCode)}`}</li>
-              <li>{`Discount: -${discountAmount}%`}</li>
-            )}
-            <li>{`Total: ${formatPrice(total, currencyCode)}`}</li>
+            <li>{`Taxes: ${formatCurrency(taxes)}`}</li>
+            {discountAmount > 0 && <li>{`Discount: -${discountAmount}%`}</li>}
+            <li>{`Total: ${formatCurrency(total)}`}</li>
           </>
         )}
       </ul>

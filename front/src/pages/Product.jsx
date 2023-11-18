@@ -20,7 +20,7 @@ export default function Product() {
   const product = results?.data;
 
   const selectVariant = (value) => {
-    const variant = product?.variants.find((variant) =>
+    const variant = product.variants.find((variant) =>
       variant.options.some((option) => option.value === value)
     );
     setSelectedVariant(variant);

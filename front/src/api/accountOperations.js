@@ -1,4 +1,5 @@
 import medusa from "./medusaClient";
+import { initialUpdateSate } from "../utils/common/initialState";
 
 const updateCartWithCustomer = async (cartId, customerId, setCart) => {
   try {
@@ -77,6 +78,59 @@ const addShippingAddress = async (shippingAddress) => {
   }
 };
 
+const updateShippingAddress = async (
+  selectedAddress,
+  shippingAddress,
+  setUser
+) => {
+  const addressId = selectedAddress?.id;
+  try {
+    const response = await medusa.customers.addresses.updateAddress(addressId, {
+      first_name: shippingAddress.first_name,
+      last_name: shippingAddress.last_name,
+      address_1: shippingAddress.address_1,
+      city: shippingAddress.city,
+      country_code: shippingAddress.country_code,
+      postal_code: shippingAddress.postal_code,
+      phone: shippingAddress.phone,
+      company: shippingAddress.company,
+      address_2: shippingAddress.address_2,
+      province: shippingAddress.province,
+    });
+    setUser(response.customer);
+    return response.customer;
+  } catch (error) {
+    console.error("Error updating shipping address:", error);
+    throw error;
+  }
+};
+
+const deleteShippingAddress = async (addressId) => {
+  try {
+    const response = await medusa.customers.addresses.deleteAddress(addressId);
+    return response.customer;
+  } catch (error) {
+    console.error("Error deleting shipping address:", error);
+    throw error;
+  }
+};
+
+const updateProfile = async (updateForm, setUser, setUpdateForm) => {
+  try {
+    const response = await medusa.customers.update({
+      first_name: updateForm.first_name,
+      last_name: updateForm.last_name,
+      email: updateForm.email,
+    });
+    setUser(response.customer);
+    setUpdateForm(initialUpdateSate);
+    return response.customer;
+  } catch (error) {
+    console.error("Error updating progile:", error);
+    throw error;
+  }
+};
+
 const logOutUser = async () => {
   try {
     await medusa.auth.deleteSession();
@@ -92,4 +146,7 @@ export {
   logOutUser,
   customerOrders,
   addShippingAddress,
+  updateShippingAddress,
+  deleteShippingAddress,
+  updateProfile,
 };

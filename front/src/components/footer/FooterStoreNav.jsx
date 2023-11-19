@@ -8,14 +8,18 @@ export default function FooterStoreNav() {
     countryDisplay,
     handleCountryChange,
     isFooter,
-    toggleFooterCountry,
-    toggleFooterCountries,
+    toggleCountry,
     regions,
     selectCountry,
   } = useContext(CountryContext);
   const { cart } = useContext(CartContext);
   const countries = regions.map((region) => region.countries);
 
+  const toggleFooterCountry = () => {
+    if (isFooter) {
+      toggleCountry("footer");
+    }
+  };
   const countryIcon =
     countryDisplay !== "country" ? (
       countryDisplay
@@ -26,16 +30,12 @@ export default function FooterStoreNav() {
     <div className="store-nav">
       <div>
         <NavLink to="/">
-          <div>
-            <i className="fa fa-home" aria-hidden="true" />
-          </div>
+          <i className="fa fa-home" aria-hidden="true" />
         </NavLink>
       </div>
       <div>
         <NavLink to="/products">
-          <div>
-            <i className="fa fa-compass" aria-hidden="true" />
-          </div>
+          <i className="fa fa-compass" aria-hidden="true" />
         </NavLink>
       </div>
       <div>
@@ -46,20 +46,18 @@ export default function FooterStoreNav() {
       </div>
       <div>
         <NavLink to="/account">
-          <div>
-            <i className="fa fa-user" aria-hidden="true" />
-          </div>
+          <i className="fa fa-user" aria-hidden="true" />
         </NavLink>
       </div>
       <div>
-        <div onClick={toggleFooterCountry}>
+        <div onClick={() => toggleCountry("footer")}>
           <div onClick={handleCountryChange} className="country">
             {isFooter ? countryIcon : countryIcon}
           </div>
         </div>
         <ul
           className={`store-county  ${isFooter && "active"}`}
-          onMouseLeave={toggleFooterCountries}
+          onMouseLeave={toggleFooterCountry}
         >
           <CountriesList countries={countries} selectCountry={selectCountry} />
         </ul>

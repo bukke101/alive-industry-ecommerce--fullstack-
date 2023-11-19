@@ -24,7 +24,6 @@ export default function ProductsList({ products, currencyCode }) {
   const allProducts = (productList) => {
     return (
       productList
-        // add sort old-> new
         // .sort((a, b) => b.created_at.localeCompare(a.created_at))
         .map((product) => (
           <div key={product.id}>
@@ -58,6 +57,19 @@ export default function ProductsList({ products, currencyCode }) {
   return (
     <>
       <SearchProducts setQ={setQ} q={q} />
+      <div className="products-sort-by">
+        <select
+          id="billing_country"
+          name="billing_country_code"
+          // value={billing_country_code}
+          // onChange={handleBillingCountry}
+        >
+          <option value="">sort by latest</option>
+          <option value="">sort by price: low to high</option>
+          <option value="">sort by price: high to low</option>
+        </select>
+        {/* sort by price: low to high sort by price: high to low */}
+      </div>
       <div className="products-list">
         {filterProducts.length === 0
           ? allProducts(products)

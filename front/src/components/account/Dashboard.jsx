@@ -29,6 +29,7 @@ export default function Dashboard({
   const results = useQuery(["orders"], customerOrders);
 
   const [activeSection, setActiveSection] = useState(null);
+  const [accountMessages, setAccountMessages] = useState("test init");
 
   const toggleSection = (section) => {
     setActiveSection(section === activeSection ? null : section);
@@ -59,6 +60,7 @@ export default function Dashboard({
           Log out
         </button>
       </div>
+      {accountMessages && <div className="display-msg">{accountMessages}</div>}
       <Orders
         results={results}
         showOrders={activeSection === "orders"}

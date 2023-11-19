@@ -29,7 +29,7 @@ export default function Checkout() {
     formData,
     setFormData,
     countryDisplay,
-    toggleCheckoutCountry,
+    toggleCountry,
     handleCountryChange,
     isCheckout,
     selectCountry,
@@ -109,7 +109,7 @@ export default function Checkout() {
               setFormData={setFormData}
               handleFormSubmit={handleFormSubmit}
               countryDisplay={countryDisplay}
-              toggleCheckoutCountry={toggleCheckoutCountry}
+              toggleCountry={toggleCountry}
               handleCountryChange={handleCountryChange}
               isCheckout={isCheckout}
               selectCountry={selectCountry}

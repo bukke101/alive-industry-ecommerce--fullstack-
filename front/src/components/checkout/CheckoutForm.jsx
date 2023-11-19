@@ -8,7 +8,7 @@ export default function CheckoutForm({
   setFormData,
   handleFormSubmit,
   countryDisplay,
-  toggleCheckoutCountry,
+  toggleCountry,
   handleCountryChange,
   isCheckout,
   regions,
@@ -27,7 +27,7 @@ export default function CheckoutForm({
           handleCountryChange={handleCountryChange}
           formData={formData}
           countryDisplay={countryDisplay}
-          toggleDropdown={toggleCheckoutCountry}
+          toggleDropdown={toggleCountry}
           isCheckout={isCheckout}
           selectCountry={selectCountry}
           regions={regions}

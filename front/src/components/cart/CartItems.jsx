@@ -25,14 +25,10 @@ export default function CartItems({
             </option>
           ))}
         </select>
+        <button onClick={() => handleDelete(item.id)} className="remove-btn">
+          Remove
+        </button>
       </div>
-    );
-
-  const renderRemoveBtn = (item) =>
-    isCartPage && (
-      <button onClick={() => handleDelete(item.id)} className="remove-btn">
-        Remove
-      </button>
     );
 
   const renderSignIn = () =>
@@ -62,7 +58,6 @@ export default function CartItems({
           currencyCode
         )}`}</li>
         {renderQuantitySelect(item)}
-        {renderRemoveBtn(item)}
       </ul>
     </div>
   ));

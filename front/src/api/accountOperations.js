@@ -15,7 +15,8 @@ const updateCartWithCustomer = async (cartId, customerId, setCart) => {
   }
 };
 
-const createCustomer = async (registerData, cartId, setCart) => {
+const createCustomer = async (accountData, cartId, setCart) => {
+  const { registerData } = accountData;
   try {
     const response = await medusa.customers.create({
       email: registerData.email,
@@ -31,8 +32,9 @@ const createCustomer = async (registerData, cartId, setCart) => {
   }
 };
 
-const logInUser = async (logInData, cartId, setCart) => {
+const logInUser = async (accountData, cartId, setCart) => {
   try {
+    const { logInData } = accountData;
     const response = await medusa.auth.authenticate({
       email: logInData.email,
       password: logInData.password,
@@ -55,7 +57,8 @@ const customerOrders = async () => {
   }
 };
 
-const addShippingAddress = async (shippingAddress) => {
+const addShippingAddress = async (accountData) => {
+  const { shippingAddress } = accountData;
   try {
     const response = await medusa.customers.addresses.addAddress({
       address: {
@@ -78,12 +81,9 @@ const addShippingAddress = async (shippingAddress) => {
   }
 };
 
-const updateShippingAddress = async (
-  selectedAddress,
-  shippingAddress,
-  setUser
-) => {
-  const addressId = selectedAddress?.id;
+const updateShippingAddress = async (selectedData, accountData, setUser) => {
+  const addressId = selectedData?.selectedAddress?.id;
+  const { shippingAddress } = accountData;
   try {
     const response = await medusa.customers.addresses.updateAddress(addressId, {
       first_name: shippingAddress.first_name,
@@ -115,7 +115,8 @@ const deleteShippingAddress = async (addressId) => {
   }
 };
 
-const updateProfile = async (updateForm, setUser, setUpdateForm) => {
+const updateProfile = async (accountData, setUser, setAccountData) => {
+  const { updateForm } = accountData;
   try {
     const response = await medusa.customers.update({
       first_name: updateForm.first_name,
@@ -123,7 +124,10 @@ const updateProfile = async (updateForm, setUser, setUpdateForm) => {
       email: updateForm.email,
     });
     setUser(response.customer);
-    setUpdateForm(initialUpdateSate);
+    setAccountData((prevState) => ({
+      ...prevState,
+      updateForm: initialUpdateSate,
+    }));
     return response.customer;
   } catch (error) {
     console.error("Error updating progile:", error);

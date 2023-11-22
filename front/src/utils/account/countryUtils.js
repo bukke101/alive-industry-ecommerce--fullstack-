@@ -36,8 +36,8 @@ const countryChangeUtil = (
       (country) => country.iso_2 === countryCode
     );
     if (validCountry) {
-      setCountryData((prevData) => ({
-        ...prevData,
+      setCountryData((prevState) => ({
+        ...prevState,
         selectedRegionId: selectedRegion.id,
         currencyCode: currencyCode,
       }));

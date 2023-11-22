@@ -18,17 +18,13 @@ import {
 export default function Account() {
   const {
     user,
-    registerData,
+    setUser,
     isLogIn,
     setIsLogIn,
-    logInData,
-    setRegisterData,
-    setLogInData,
-    setUser,
-    updateForm,
-    setUpdateForm,
-    shippingAddress,
-    setShippingAddress,
+    accountData,
+    setAccountData,
+    loggedIn,
+    setLoggedIn,
   } = useContext(AccountContext);
 
   const { setFormData, countryData, selectCountry, regions } =
@@ -40,35 +36,37 @@ export default function Account() {
   const cartId = cart?.id;
 
   const [accountMessage, setAccountMessage] = useState("");
-  // destructre or move??
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [profile, setProfile] = useState(false);
+  const [selectedData, setSelectedData] = useState({
+    selectedOrder: null,
+    selectedAddress: null,
+    profile: false,
+  });
 
   const handleRegister = async (e) => {
     e.preventDefault();
     await registerUtil(
-      registerData,
+      accountData,
+      setAccountData,
       cartId,
       setCart,
       setUser,
       setFormData,
-      setRegisterData,
       setAccountMessage
     );
   };
   const handleLogIn = async (e) => {
     e.preventDefault();
     await logInUtil(
-      logInData,
+      accountData,
+      setAccountData,
       cartId,
       setCart,
       setUser,
       setFormData,
-      setLogInData,
       setAccountMessage,
       selectCountry,
-      regions
+      regions,
+      setLoggedIn
     );
   };
   const handleLogOut = async () => {
@@ -76,77 +74,77 @@ export default function Account() {
       setUser,
       setIsLogIn,
       setFormData,
-      setSelectedOrder,
-      setShippingAddress,
-      setSelectedAddress
+      setSelectedData,
+      setAccountData,
+      setLoggedIn
     );
     navigate("/products");
   };
   const handleShippingAddress = async (e) => {
     e.preventDefault();
-    if (selectedAddress) {
+    if (selectedData?.selectedAddress) {
       await updateAddressUtil(
-        selectedAddress,
-        shippingAddress,
+        selectedData,
+        accountData,
+        setAccountData,
         setUser,
-        setShippingAddress
+        setAccountMessage
       );
     } else {
       await addAddressUtil(
-        shippingAddress,
+        accountData,
+        setAccountData,
         setFormData,
         setUser,
         regions,
         selectCountry,
-        setShippingAddress
+        setAccountMessage
       );
     }
   };
   const handleUpdateAddress = (address) => {
-    updateFormUtil(setSelectedAddress, address, setShippingAddress);
+    updateFormUtil(setSelectedData, address, setAccountData);
   };
   const handleDeleteAddress = async (addressId) => {
-    await deleteAddressUtil(addressId, setUser, setFormData);
+    await deleteAddressUtil(addressId, setUser, setFormData, setAccountMessage);
   };
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    await updateProfileUtil(updateForm, setUser, setUpdateForm);
-    setProfile(false);
+    await updateProfileUtil(
+      accountData,
+      setAccountData,
+      setUser,
+      setAccountMessage,
+      setSelectedData
+    );
   };
   return (
     <>
-      {!user ? (
+      {!loggedIn ? (
         <LoginForm
-          logInData={logInData}
+          accountData={accountData}
+          setAccountData={setAccountData}
           logIn={handleLogIn}
-          registerData={registerData}
           isLogIn={isLogIn}
           setIsLogIn={setIsLogIn}
           message={accountMessage}
           handleRegister={handleRegister}
-          setRegisterData={setRegisterData}
-          setLogInData={setLogInData}
         />
       ) : (
         <Dashboard
           handleLogOut={handleLogOut}
-          selectedOrder={selectedOrder}
-          setSelectedOrder={setSelectedOrder}
+          selectedData={selectedData}
+          setSelectedData={setSelectedData}
           countryData={countryData}
-          shippingAddress={shippingAddress}
-          setShippingAddress={setShippingAddress}
+          accountData={accountData}
+          setAccountData={setAccountData}
           regions={regions}
           handleShippingAddress={handleShippingAddress}
           handleDeleteAddress={handleDeleteAddress}
           handleUpdateAddress={handleUpdateAddress}
           user={user}
           handleUpdateProfile={handleUpdateProfile}
-          updateForm={updateForm}
-          setUpdateForm={setUpdateForm}
-          selectedAddress={selectedAddress}
-          profile={profile}
-          setProfile={setProfile}
-          setSelectedAddress={setSelectedAddress}
+          accountMessage={accountMessage}
         />
       )}
     </>

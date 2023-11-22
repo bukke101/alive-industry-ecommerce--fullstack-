@@ -24,7 +24,6 @@ export function CartProvider({ children }) {
       setCart(JSON.parse(storedCart));
     }
   }, []);
-
   return (
     <CartContext.Provider
       value={{

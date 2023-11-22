@@ -1,13 +1,14 @@
 import PasswordInput from "./PasswordInput";
 import { initialLoginState } from "../../utils/common/initialState";
 export default function RegisterForm({
-  registerData,
+  accountData,
+  setAccountData,
   handleLoginInput,
   handleRegister,
   isLogIn,
   setIsLogIn,
-  setLogInData,
 }) {
+  const { registerData } = accountData;
   return (
     <form onSubmit={handleRegister} className="login-form">
       <h3>Create an Account</h3>
@@ -50,7 +51,11 @@ export default function RegisterForm({
         Already a member?
         <span
           onClick={() => {
-            setIsLogIn(!isLogIn), setLogInData(initialLoginState);
+            setIsLogIn(!isLogIn),
+              setAccountData((prevState) => ({
+                ...prevState,
+                logInData: initialLoginState,
+              }));
           }}
         >
           Sign in

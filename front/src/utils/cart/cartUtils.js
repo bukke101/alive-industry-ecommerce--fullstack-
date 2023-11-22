@@ -135,8 +135,8 @@ const applyDiscountUtil = async (
   try {
     const updatedCart = await addDiscount(cartId, discountData.discountCode);
     const totalDiscount = calculateDiscountUtil(updatedCart);
-    setDiscountData((prevData) => ({
-      ...prevData,
+    setDiscountData((prevState) => ({
+      ...prevState,
       discountAmount: totalDiscount,
       validDiscount: true,
     }));
@@ -144,8 +144,8 @@ const applyDiscountUtil = async (
     setDiscountMessage("Discount code applied successfully.");
     removeMessage(setDiscountMessage);
   } catch (error) {
-    setDiscountData((prevData) => ({
-      ...prevData,
+    setDiscountData((prevState) => ({
+      ...prevState,
       validDiscount: false,
     }));
     setDiscountMessage("Invalid discount code. Please try again.");

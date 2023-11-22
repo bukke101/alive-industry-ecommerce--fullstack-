@@ -1,7 +1,7 @@
 const paymentUtil = async (paymentSessionId, setPaymentData) => {
   try {
-    setPaymentData((prevData) => ({
-      ...prevData,
+    setPaymentData((prevState) => ({
+      ...prevState,
       selectedPaymentSession: paymentSessionId,
     }));
   } catch (error) {

@@ -53,8 +53,6 @@ export default function Checkout() {
     isPaymentOptionSelected: false,
   });
 
-  const [isAddress, setIsAddress] = useState(true);
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     await formSubmitUtil(
@@ -102,7 +100,7 @@ export default function Checkout() {
     <div className="checkout-page">
       {cart?.items && (
         <div>
-          {isAddress && (
+          {
             <CheckoutForm
               regions={regions}
               formData={formData}
@@ -115,7 +113,7 @@ export default function Checkout() {
               selectCountry={selectCountry}
               cartData={cart}
             />
-          )}
+          }
 
           {shippingData.options?.length > 0 && (
             <ShippingOptions

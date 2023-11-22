@@ -1,7 +1,7 @@
 import { formatPrice } from "../../utils/common/formatPrice";
 export default function OrderDetails({
-  selectedOrder,
-  setSelectedOrder,
+  selectedData,
+  setSelectedData,
   countryData,
 }) {
   const {
@@ -17,7 +17,7 @@ export default function OrderDetails({
     customer,
     shipping_address,
     payments,
-  } = selectedOrder || {};
+  } = selectedData.selectedOrder || {};
 
   const orderSummary = items?.map((item) => (
     <div key={item.id}>
@@ -33,7 +33,14 @@ export default function OrderDetails({
         <h3>{`Order: #${display_id}`}</h3>
         <p>{`fullfilment: ${fulfillment_status}`}</p>
         <p>{`payment status: ${payment_status}`}</p>
-        <a onClick={() => setSelectedOrder(null)}>
+        <a
+          onClick={() =>
+            setSelectedData((prevState) => ({
+              ...prevState,
+              selectedOrder: null,
+            }))
+          }
+        >
           <i className="fa fa-times" aria-hidden="true" />
         </a>
       </div>
@@ -57,8 +64,8 @@ export default function OrderDetails({
         </div>
         <div>
           <h3>Payments</h3>
-          <p>{`total paid:${formatCurrency(payments?.[0].amount)}`}</p>
-          <p>{`provider:${selectedOrder?.payments?.[0].provider_id}`}</p>
+          <p>{`total paid: ${formatCurrency(payments?.[0].amount)}`}</p>
+          <p>{`provider: ${payments?.[0].provider_id}`}</p>
           <p>{payments?.[0].id}</p>
         </div>
       </div>

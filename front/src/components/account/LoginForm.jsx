@@ -3,18 +3,16 @@ import PasswordInput from "./PasswordInput";
 import { loginInputUtil } from "../../utils/account/accountUtils";
 import { initialRegisterState } from "../../utils/common/initialState";
 export default function LoginForm({
-  logInData,
+  accountData,
+  setAccountData,
   logIn,
-  registerData,
   isLogIn,
   setIsLogIn,
   message,
   handleRegister,
-  setRegisterData,
-  setLogInData,
 }) {
   const handleLoginInput = (name, value) => {
-    loginInputUtil(name, value, isLogIn, setLogInData, setRegisterData);
+    loginInputUtil(name, value, isLogIn, setAccountData);
   };
 
   return (
@@ -26,13 +24,13 @@ export default function LoginForm({
             type="email"
             id="email"
             name="email"
-            value={logInData.email}
+            value={accountData?.logInData?.email}
             onChange={(e) => handleLoginInput("email", e.target.value)}
             placeholder="Email"
             required
           />
           <PasswordInput
-            value={logInData.password}
+            value={accountData?.logInData?.password}
             onChange={(e) => handleLoginInput("password", e.target.value)}
           />
           <button type="submit" disabled="">
@@ -42,7 +40,11 @@ export default function LoginForm({
             Not a member?
             <span
               onClick={() => {
-                setIsLogIn(!isLogIn), setRegisterData(initialRegisterState);
+                setIsLogIn(!isLogIn),
+                  setAccountData((prevState) => ({
+                    ...prevState,
+                    registerData: initialRegisterState,
+                  }));
               }}
             >
               Join
@@ -51,13 +53,13 @@ export default function LoginForm({
         </form>
       ) : (
         <RegisterForm
-          registerData={registerData}
+          accountData={accountData}
+          setAccountData={setAccountData}
           handleLoginInput={handleLoginInput}
           isLogIn={isLogIn}
           setIsLogIn={setIsLogIn}
           message={message}
           handleRegister={handleRegister}
-          setLogInData={setLogInData}
         />
       )}
       <p className="error-message">{message}</p>

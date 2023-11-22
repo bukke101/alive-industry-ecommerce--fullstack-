@@ -8,32 +8,29 @@ import Loading from "../loading/Loading";
 
 export default function Dashboard({
   handleLogOut,
-  selectedOrder,
-  setSelectedOrder,
+  selectedData,
+  setSelectedData,
   countryData,
-  shippingAddress,
+  accountData,
+  setAccountData,
   handleShippingAddress,
   handleDeleteAddress,
   regions,
   user,
-  setShippingAddress,
   handleUpdateAddress,
   handleUpdateProfile,
-  updateForm,
-  setUpdateForm,
-  selectedAddress,
-  profile,
-  setProfile,
-  setSelectedAddress,
+  accountMessage,
 }) {
   const results = useQuery(["orders"], customerOrders);
-
   const [activeSection, setActiveSection] = useState(null);
-  const [accountMessages, setAccountMessages] = useState("test init");
 
   const toggleSection = (section) => {
     setActiveSection(section === activeSection ? null : section);
-    if (selectedOrder) setSelectedOrder(null);
+    if (selectedData.selectedOrder)
+      setSelectedData((prevState) => ({
+        ...prevState,
+        selectedOrder: null,
+      }));
   };
 
   return (
@@ -60,35 +57,39 @@ export default function Dashboard({
           Log out
         </button>
       </div>
-      {accountMessages && <div className="display-msg">{accountMessages}</div>}
+
       <Orders
         results={results}
         showOrders={activeSection === "orders"}
-        selectedOrder={selectedOrder}
-        setSelectedOrder={setSelectedOrder}
+        selectedData={selectedData}
+        setSelectedData={setSelectedData}
         countryData={countryData}
       />
       <Profile
         showProfile={activeSection === "profile"}
         user={user}
         handleUpdateProfile={handleUpdateProfile}
-        updateForm={updateForm}
-        setUpdateForm={setUpdateForm}
-        profile={profile}
-        setProfile={setProfile}
+        accountData={accountData}
+        setAccountData={setAccountData}
+        selectedData={selectedData}
+        setSelectedData={setSelectedData}
       />
+
       <Addresses
         showShipping={activeSection === "addresses"}
-        shippingAddress={shippingAddress}
+        accountData={accountData}
+        setAccountData={setAccountData}
         handleShippingAddress={handleShippingAddress}
         user={user}
         handleDeleteAddress={handleDeleteAddress}
         handleUpdateAddress={handleUpdateAddress}
         regions={regions}
-        setShippingAddress={setShippingAddress}
-        selectedAddress={selectedAddress}
-        setSelectedAddress={setSelectedAddress}
+        selectedData={selectedData}
+        setSelectedData={setSelectedData}
       />
+      <div className="account-msg-wrapper">
+        {accountMessage && <div className="display-msg">{accountMessage}</div>}
+      </div>
       <div className="dashboard-hero">
         Welcome to your personal page, Where you can view/manage all your
         orders, add/edit a shipping address & personal info. Start Exploring

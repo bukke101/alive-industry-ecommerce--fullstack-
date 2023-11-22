@@ -2,26 +2,36 @@ export default function Profile({
   showProfile,
   user,
   handleUpdateProfile,
-  updateForm,
-  setUpdateForm,
-  profile,
-  setProfile,
+  accountData,
+  setAccountData,
+  selectedData,
+  setSelectedData,
 }) {
+  const { updateForm } = accountData;
+  const profile = selectedData?.profile;
   const handleInputChange = (name, value) => {
-    setUpdateForm((prevState) => ({
+    setAccountData((prevState) => ({
       ...prevState,
-      [name]: value,
+      updateForm: {
+        ...prevState.updateForm,
+        [name]: value,
+      },
     }));
   };
-
   const handleToggleProfile = () => {
-    setUpdateForm((prevData) => ({
-      ...prevData,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
+    setAccountData((prevState) => ({
+      ...prevState,
+      updateForm: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      },
     }));
-    setProfile(!profile);
+
+    setSelectedData((prevState) => ({
+      ...prevState,
+      profile: !profile,
+    }));
   };
 
   return (

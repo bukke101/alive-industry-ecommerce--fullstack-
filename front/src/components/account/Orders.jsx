@@ -3,23 +3,22 @@ import OrderList from "./OrderList";
 export default function Orders({
   results,
   showOrders,
-  setSelectedOrder,
+  setSelectedData,
   countryData,
-  selectedOrder,
+  selectedData,
 }) {
   return (
     <div className="order-wrapper">
       <OrderList
         results={results}
         showOrders={showOrders}
-        selectedOrder={selectedOrder}
-        setSelectedOrder={setSelectedOrder}
+        setSelectedData={setSelectedData}
         countryData={countryData}
       />
-      {selectedOrder && (
+      {selectedData?.selectedOrder && (
         <OrderDetails
-          selectedOrder={selectedOrder}
-          setSelectedOrder={setSelectedOrder}
+          selectedData={selectedData}
+          setSelectedData={setSelectedData}
           countryData={countryData}
         />
       )}

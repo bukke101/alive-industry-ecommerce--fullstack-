@@ -27,8 +27,8 @@ export default function DiscountForm() {
           placeholder="Enter discount code"
           value={discountCode}
           onChange={(e) =>
-            setDiscountData((prevData) => ({
-              ...prevData,
+            setDiscountData((prevState) => ({
+              ...prevState,
               discountCode: e.target.value,
             }))
           }

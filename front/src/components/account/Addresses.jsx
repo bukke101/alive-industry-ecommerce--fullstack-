@@ -4,12 +4,12 @@ export default function Addresses({
   user,
   handleDeleteAddress,
   handleUpdateAddress,
-  shippingAddress,
+  accountData,
+  setAccountData,
   handleShippingAddress,
   regions,
-  setShippingAddress,
-  selectedAddress,
-  setSelectedAddress,
+  selectedData,
+  setSelectedData,
 }) {
   const shippingAdresses =
     user?.shipping_addresses &&
@@ -35,18 +35,20 @@ export default function Addresses({
           {shippingAdresses}
         </div>
         <div className="address-form-wrapper">
-          <h3>{selectedAddress ? "Edit Address" : "Add Address"}</h3>
+          <h3>
+            {selectedData?.selectedAddress ? "Edit Address" : "Add Address"}
+          </h3>
           <ShippingForm
             showShipping={showShipping}
-            shippingAddress={shippingAddress}
+            accountData={accountData}
+            setAccountData={setAccountData}
             handleShippingAddress={handleShippingAddress}
             user={user}
             handleDeleteAddress={handleDeleteAddress}
             handleUpdateAddress={handleUpdateAddress}
             regions={regions}
-            setShippingAddress={setShippingAddress}
-            selectedAddress={selectedAddress}
-            setSelectedAddress={setSelectedAddress}
+            selectedData={selectedData}
+            setSelectedData={setSelectedData}
           />
         </div>
       </div>

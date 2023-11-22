@@ -45,16 +45,15 @@ const formUtil = async (
     formData,
     countryData
   );
-  console.log(updatedCart);
   setCart(updatedCart);
   setFormData(initialCheckoutState);
   const fetchedOptions = await fetchShippingOptions(cartId);
-  setShippingData((prevData) => ({
-    ...prevData,
+  setShippingData((prevState) => ({
+    ...prevState,
     options: fetchedOptions,
   }));
-  setCountryData((prevData) => ({
-    ...prevData,
+  setCountryData((prevState) => ({
+    ...prevState,
     selectedRegionId: countryData.selectedRegionId,
   }));
 };

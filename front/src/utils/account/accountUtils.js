@@ -13,28 +13,32 @@ import {
   initialCheckoutState,
   initialRegisterState,
   initialLoginState,
+  initialUpdateSate,
 } from "../common/initialState";
 const registerUtil = async (
-  registerData,
+  accountData,
+  setAccountData,
   cartId,
   setCart,
   setUser,
   setFormData,
-  setRegisterData,
   setAccountMessage
 ) => {
   try {
-    const registeredUser = await createCustomer(registerData, cartId, setCart);
+    const registeredUser = await createCustomer(accountData, cartId, setCart);
     if (registeredUser) {
       setUser(registeredUser);
-      setFormData((prevData) => ({
-        ...prevData,
+      setFormData((prevState) => ({
+        ...prevState,
         email: registeredUser.email,
         first_name: registeredUser.first_name,
         last_name: registeredUser.last_name,
       }));
     }
-    setRegisterData(initialRegisterState);
+    setAccountData((prevState) => ({
+      ...prevState,
+      registerData: initialRegisterState,
+    }));
   } catch (error) {
     setAccountMessage("A customer with the given email already exists");
     removeMessage(setAccountMessage);
@@ -42,23 +46,25 @@ const registerUtil = async (
 };
 
 const logInUtil = async (
-  logInData,
+  accountData,
+  setAccountData,
   cartId,
   setCart,
   setUser,
   setFormData,
-  setLogInData,
   setAccountMessage,
   selectCountry,
-  regions
+  regions,
+  setLoggedIn
 ) => {
   try {
-    const loggedInUser = await logInUser(logInData, cartId, setCart);
+    const loggedInUser = await logInUser(accountData, cartId, setCart);
     if (loggedInUser) {
       addCountryUtil(loggedInUser, regions, selectCountry);
       setUser(loggedInUser);
-      setFormData((prevData) => ({
-        ...prevData,
+      setLoggedIn(true);
+      setFormData((prevState) => ({
+        ...prevState,
         email: loggedInUser.email,
         first_name: loggedInUser.first_name,
         last_name: loggedInUser.last_name,
@@ -69,7 +75,10 @@ const logInUtil = async (
         address_2: loggedInUser.shipping_addresses[0]?.address_2,
       }));
     }
-    setLogInData(initialLoginState);
+    setAccountData((prevState) => ({
+      ...prevState,
+      logInData: initialLoginState,
+    }));
   } catch (error) {
     setAccountMessage("These credentials do not match our records");
     removeMessage(setAccountMessage);
@@ -77,19 +86,21 @@ const logInUtil = async (
 };
 
 const addAddressUtil = async (
-  shippingAddress,
+  accountData,
+  setAccountData,
   setFormData,
   setUser,
   regions,
   selectCountry,
-  setShippingAddress
+  setAccountMessage
 ) => {
   try {
-    const updatedAddress = await addShippingAddress(shippingAddress);
+    const updatedAddress = await addShippingAddress(accountData);
     if (updatedAddress && updatedAddress.shipping_addresses.length < 2) {
+      const { shippingAddress } = accountData;
       addCountryUtil(updatedAddress, regions, selectCountry);
-      setFormData((prevData) => ({
-        ...prevData,
+      setFormData((prevState) => ({
+        ...prevState,
         email: updatedAddress.email,
         first_name: shippingAddress.first_name,
         last_name: shippingAddress.last_name,
@@ -102,61 +113,102 @@ const addAddressUtil = async (
       }));
     }
     setUser(updatedAddress);
-    setShippingAddress(initialCheckoutState);
+    setAccountData((prevState) => ({
+      ...prevState,
+      shippingAddress: initialCheckoutState,
+    }));
+    setAccountMessage("Address added!");
+    removeMessage(setAccountMessage);
   } catch (error) {
-    console.log(error);
+    setAccountMessage("Failed to add address");
+    removeMessage(setAccountMessage);
   }
 };
 
 const updateAddressUtil = async (
-  selectedAddress,
-  shippingAddress,
+  selectedData,
+  accountData,
+  setAccountData,
   setUser,
-  setShippingAddress
+  setAccountMessage
 ) => {
   try {
     await updateShippingAddress(
-      selectedAddress,
-      shippingAddress,
-      setUser,
-      setShippingAddress
+      selectedData,
+      accountData,
+      setAccountData,
+      setUser
     );
-    setShippingAddress(initialCheckoutState);
+    setAccountData((prevState) => ({
+      ...prevState,
+      shippingAddress: initialCheckoutState,
+    }));
+
+    setAccountMessage("Address updated!");
+    removeMessage(setAccountMessage);
   } catch (error) {
-    error;
+    setAccountMessage("Failed to update address");
+    removeMessage(setAccountMessage);
   }
 };
 
-const updateFormUtil = (setSelectedAddress, address, setShippingAddress) => {
-  setSelectedAddress(address);
-  setShippingAddress((prevData) => ({
-    ...prevData,
-    first_name: address.first_name,
-    last_name: address.last_name,
-    postal_code: address.postal_code,
-    province: address.province,
-    city: address.city,
-    country_code: address.country_code,
-    address_1: address.address_1,
-    address_2: address.address_2,
+const updateFormUtil = (setSelectedData, address, setAccountData) => {
+  setSelectedData((prevState) => ({
+    ...prevState,
+    selectedAddress: address,
+  }));
+  setAccountData((prevState) => ({
+    ...prevState,
+    shippingAddress: {
+      ...prevState.shippingAddress,
+      first_name: address.first_name,
+      last_name: address.last_name,
+      postal_code: address.postal_code,
+      province: address.province,
+      city: address.city,
+      country_code: address.country_code,
+      address_1: address.address_1,
+      address_2: address.address_2,
+    },
   }));
 };
 
-const deleteAddressUtil = async (addressId, setUser, setFormData) => {
+const deleteAddressUtil = async (
+  addressId,
+  setUser,
+  setFormData,
+  setAccountMessage
+) => {
   try {
     const updatedUser = await deleteShippingAddress(addressId);
     setUser(updatedUser);
     setFormData(initialCheckoutState);
+    setAccountMessage("Address deleted");
+    removeMessage(setAccountMessage);
   } catch (error) {
-    error;
+    setAccountMessage("Failed to delete address");
+    removeMessage(setAccountMessage);
   }
 };
 
-const updateProfileUtil = async (updateForm, setUser, setUpdateForm) => {
+const updateProfileUtil = async (
+  accountData,
+  setAccountData,
+  setUser,
+  setAccountMessage,
+  setSelectedData
+) => {
   try {
-    await updateProfile(updateForm, setUser, setUpdateForm);
+    await updateProfile(accountData, setUser, setAccountData);
+    setAccountMessage("Profile updated!");
+    removeMessage(setAccountMessage);
+    setSelectedData((prevState) => ({
+      ...prevState,
+      profile: false,
+    }));
   } catch (error) {
-    error;
+    setAccountMessage("Failed to update profile");
+    removeMessage(setAccountMessage);
   }
 };
 
@@ -164,33 +216,43 @@ const logOutUtil = async (
   setUser,
   setIsLogIn,
   setFormData,
-  setSelectedOrder,
-  setShippingAddress,
-  setSelectedAddress
+  setSelectedData,
+  setAccountData,
+  setLoggedIn
 ) => {
   await logOutUser();
   setUser(null);
   setIsLogIn(true);
   setFormData(initialCheckoutState);
-  setSelectedOrder(null);
-  setShippingAddress(initialCheckoutState), setSelectedAddress(null);
+  localStorage.removeItem("user");
+  setLoggedIn(false);
+  setSelectedData({
+    selectedOrder: null,
+    selectedAddress: null,
+  });
+  setAccountData({
+    registerData: initialRegisterState,
+    logInData: initialLoginState,
+    shippingAddress: initialCheckoutState,
+    updateForm: initialUpdateSate,
+  });
 };
 
-const loginInputUtil = (
-  name,
-  value,
-  isLogIn,
-  setLogInData,
-  setRegisterData
-) => {
+const loginInputUtil = (name, value, isLogIn, setAccountData) => {
   isLogIn
-    ? setLogInData((prevData) => ({
-        ...prevData,
-        [name]: value,
+    ? setAccountData((prevState) => ({
+        ...prevState,
+        logInData: {
+          ...prevState.logInData,
+          [name]: value,
+        },
       }))
-    : setRegisterData((prevData) => ({
-        ...prevData,
-        [name]: value,
+    : setAccountData((prevState) => ({
+        ...prevState,
+        registerData: {
+          ...prevState.registerData,
+          [name]: value,
+        },
       }));
 };
 export {

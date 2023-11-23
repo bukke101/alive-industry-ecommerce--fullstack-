@@ -19,4 +19,32 @@ const addCountryUtil = (user, regions, selectCountry) => {
     }
   }
 };
-export { addCountryUtil };
+
+const countryChangeUtil = (
+  countryCode,
+  regions,
+  setCountryData,
+  formData,
+  setFormData
+) => {
+  const selectedRegion = regions?.find((region) =>
+    region.countries.some((country) => country.iso_2 === countryCode)
+  );
+  const currencyCode = selectedRegion?.currency_code;
+  if (selectedRegion) {
+    const validCountry = selectedRegion.countries.some(
+      (country) => country.iso_2 === countryCode
+    );
+    if (validCountry) {
+      setCountryData((prevState) => ({
+        ...prevState,
+        selectedRegionId: selectedRegion.id,
+        currencyCode: currencyCode,
+      }));
+    } else {
+      console.error("Selected country is not valid for the cart region");
+    }
+  }
+  setFormData({ ...formData, country_code: countryCode });
+};
+export { addCountryUtil, countryChangeUtil };

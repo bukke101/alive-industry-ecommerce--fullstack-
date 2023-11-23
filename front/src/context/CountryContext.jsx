@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchRegions from "../api/fetchRegions";
-import { countryChangeUtil } from "../utils/checkout/checkoutUtils";
+import { countryChangeUtil } from "../utils/account/countryUtils";
 import { initialCheckoutState } from "../utils/common/initialState";
 
 export const CountryContext = createContext();
@@ -17,27 +17,22 @@ export function CountryProvider({ children }) {
     currencyCode: "",
     selectedRegionId: "",
   });
-
   const [isFooter, setIsFooter] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
 
-  const toggleFooterCountry = () => {
-    setIsFooter(!isFooter);
-  };
-  const toggleFooterCountries = () => {
-    if (isFooter) {
-      toggleFooterCountry();
+  const toggleCountry = (type) => {
+    if (type === "footer") {
+      setIsFooter(!isFooter);
+    } else if (type === "checkout") {
+      setIsCheckout(!isCheckout);
     }
-  };
-  const toggleCheckoutCountry = () => {
-    setIsCheckout(!isCheckout);
   };
 
   const selectCountry = (countryCode, displayName) => {
     handleCountryChange(countryCode);
     setCountryDisplay(displayName);
-    isFooter ? toggleFooterCountry() : "";
-    isCheckout ? toggleCheckoutCountry() : "";
+    isFooter && toggleCountry("footer");
+    isCheckout && toggleCountry("checkout");
   };
 
   const handleCountryChange = (countryCode) => {
@@ -63,10 +58,8 @@ export function CountryProvider({ children }) {
         handleCountryChange,
         isFooter,
         isCheckout,
-        toggleFooterCountry,
-        toggleCheckoutCountry,
+        toggleCountry,
         selectCountry,
-        toggleFooterCountries,
       }}
     >
       {children}

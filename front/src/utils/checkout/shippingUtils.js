@@ -9,23 +9,23 @@ const shippingUtil = async (
 ) => {
   try {
     await addShippingMethod(cartId, shippingOptionId);
-    setShippingData((prevData) => ({
-      ...prevData,
+    setShippingData((prevState) => ({
+      ...prevState,
       shippingOption: shippingOptionId,
     }));
 
     const selectedOption = shippingData?.options?.find(
       (option) => option.id === shippingOptionId
     );
-    setShippingData((prevData) => ({
-      ...prevData,
+    setShippingData((prevState) => ({
+      ...prevState,
       selectedShippingOption: selectedOption,
     }));
 
     const paymentSessions = await fetchPaymentSessions(cartId);
 
-    setPaymentData((prevData) => ({
-      ...prevData,
+    setPaymentData((prevState) => ({
+      ...prevState,
       paymentSessions: paymentSessions,
     }));
   } catch (error) {

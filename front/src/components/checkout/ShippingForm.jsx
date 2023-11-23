@@ -43,7 +43,10 @@ export default function ShippingForm({
         required
       />
       <div className="country-dropdown">
-        <div className="selected-country" onClick={toggleDropdown}>
+        <div
+          className="selected-country"
+          onClick={() => toggleDropdown("checkout")}
+        >
           <div>
             <ReactCountryFlag
               countryCode={country_code}
@@ -52,7 +55,7 @@ export default function ShippingForm({
             {countryDisplay}
           </div>
           <div onClick={handleCountryChange}>
-            <i className="fa fa-angle-down"></i>
+            <i className="fa fa-angle-down" />
           </div>
         </div>
         {isCheckout && (

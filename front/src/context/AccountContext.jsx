@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import {
   initialLoginState,
   initialRegisterState,
@@ -9,28 +9,39 @@ import {
 export const AccountContext = createContext();
 export function AccountProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [registerData, setRegisterData] = useState(initialRegisterState);
-
   const [isLogIn, setIsLogIn] = useState(true);
-  const [logInData, setLogInData] = useState(initialLoginState);
-  const [shippingAddress, setShippingAddress] = useState(initialCheckoutState);
-  const [updateForm, setUpdateForm] = useState(initialUpdateSate);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [accountData, setAccountData] = useState({
+    registerData: initialRegisterState,
+    logInData: initialLoginState,
+    shippingAddress: initialCheckoutState,
+    updateForm: initialUpdateSate,
+  });
+
+  useEffect(() => {
+    if (loggedIn) {
+      localStorage.setItem("user", JSON.stringify(loggedIn));
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setLoggedIn(JSON.parse(storedUser));
+    }
+  }, []);
 
   return (
     <AccountContext.Provider
       value={{
         user,
         setUser,
-        registerData,
-        setRegisterData,
         isLogIn,
         setIsLogIn,
-        logInData,
-        setLogInData,
-        updateForm,
-        setUpdateForm,
-        shippingAddress,
-        setShippingAddress,
+        accountData,
+        setAccountData,
+        loggedIn,
+        setLoggedIn,
       }}
     >
       {children}

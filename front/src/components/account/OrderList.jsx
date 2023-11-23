@@ -3,11 +3,14 @@ import { formatPrice } from "../../utils/common/formatPrice";
 export default function OrderList({
   results,
   showOrders,
-  setSelectedOrder,
+  setSelectedData,
   countryData,
 }) {
   const toggleOrder = (order) => {
-    setSelectedOrder(order);
+    setSelectedData((prevState) => ({
+      ...prevState,
+      selectedOrder: order,
+    }));
   };
   const orderList = results?.data?.map((order) => {
     const rawDate = order?.created_at;

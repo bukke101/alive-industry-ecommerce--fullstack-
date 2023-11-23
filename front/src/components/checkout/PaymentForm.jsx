@@ -13,8 +13,8 @@ export default function PaymentForm({
         value={paymentSession.id}
         onChange={() => {
           handlePayment(paymentSession.id);
-          setPaymentData((prevData) => ({
-            ...prevData,
+          setPaymentData((prevState) => ({
+            ...prevState,
             isPaymentOptionSelected: true,
           }));
         }}

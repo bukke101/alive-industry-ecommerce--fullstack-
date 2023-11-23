@@ -2,12 +2,12 @@ import CountriesList from "../countries/CountriesList";
 import { initialCheckoutState } from "../../utils/common/initialState";
 export default function ShippingForm({
   showShipping,
-  shippingAddress,
+  accountData,
+  setAccountData,
   handleShippingAddress,
   regions,
-  setShippingAddress,
-  selectedAddress,
-  setSelectedAddress,
+  selectedData,
+  setSelectedData,
 }) {
   const {
     first_name,
@@ -20,22 +20,31 @@ export default function ShippingForm({
     address_1,
     address_2,
     company,
-  } = shippingAddress;
+  } = accountData.shippingAddress;
 
   const countriesOption = regions.map((region) => region.countries);
 
   const handleShippingInput = (e) => {
     const { name, value, type, checked } = e.target;
-    const newState = {
-      ...shippingAddress,
-      [name]: type === "checkbox" ? checked : value,
-    };
-    setShippingAddress(newState);
-  };
+    const updatedValue = type === "checkbox" ? checked : value;
 
-  const handleClear = () => {
-    setSelectedAddress(null);
-    setShippingAddress(initialCheckoutState);
+    setAccountData((prevState) => ({
+      ...prevState,
+      shippingAddress: {
+        ...prevState.shippingAddress,
+        [name]: updatedValue,
+      },
+    }));
+  };
+  const handleClearForm = () => {
+    setSelectedData((prevState) => ({
+      ...prevState,
+      selectedAddress: null,
+    }));
+    setAccountData((prevState) => ({
+      ...prevState,
+      shippingAddress: initialCheckoutState,
+    }));
   };
 
   return (
@@ -144,11 +153,11 @@ export default function ShippingForm({
             placeholder="Phone"
           />
           <button type="sumbit">
-            {selectedAddress ? "Edit Address" : "Add Address"}
+            {selectedData?.selectedAddress ? "Edit Address" : "Add Address"}
           </button>
 
-          {selectedAddress && (
-            <button type="button" onClick={handleClear}>
+          {selectedData?.selectedAddress && (
+            <button type="button" onClick={handleClearForm}>
               cancel
             </button>
           )}

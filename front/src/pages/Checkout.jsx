@@ -29,7 +29,7 @@ export default function Checkout() {
     formData,
     setFormData,
     countryDisplay,
-    toggleCheckoutCountry,
+    toggleCountry,
     handleCountryChange,
     isCheckout,
     selectCountry,
@@ -52,8 +52,6 @@ export default function Checkout() {
     selectedPaymentSession: null,
     isPaymentOptionSelected: false,
   });
-
-  const [isAddress, setIsAddress] = useState(true);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -102,19 +100,20 @@ export default function Checkout() {
     <div className="checkout-page">
       {cart?.items && (
         <div>
-          {isAddress && (
+          {
             <CheckoutForm
               regions={regions}
               formData={formData}
               setFormData={setFormData}
               handleFormSubmit={handleFormSubmit}
               countryDisplay={countryDisplay}
-              toggleCheckoutCountry={toggleCheckoutCountry}
+              toggleCountry={toggleCountry}
               handleCountryChange={handleCountryChange}
               isCheckout={isCheckout}
               selectCountry={selectCountry}
+              cartData={cart}
             />
-          )}
+          }
 
           {shippingData.options?.length > 0 && (
             <ShippingOptions

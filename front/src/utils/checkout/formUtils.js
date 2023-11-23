@@ -45,16 +45,15 @@ const formUtil = async (
     formData,
     countryData
   );
-  console.log(updatedCart);
   setCart(updatedCart);
   setFormData(initialCheckoutState);
   const fetchedOptions = await fetchShippingOptions(cartId);
-  setShippingData((prevData) => ({
-    ...prevData,
+  setShippingData((prevState) => ({
+    ...prevState,
     options: fetchedOptions,
   }));
-  setCountryData((prevData) => ({
-    ...prevData,
+  setCountryData((prevState) => ({
+    ...prevState,
     selectedRegionId: countryData.selectedRegionId,
   }));
 };
@@ -75,32 +74,4 @@ const billingUtil = (e, formData, setFormData) => {
   }
 };
 
-const countryUtil = (
-  countryCode,
-  regions,
-  setCountryData,
-  formData,
-  setFormData
-) => {
-  const selectedRegion = regions?.find((region) =>
-    region.countries.some((country) => country.iso_2 === countryCode)
-  );
-  const currencyCode = selectedRegion?.currency_code;
-  if (selectedRegion) {
-    const validCountry = selectedRegion.countries.some(
-      (country) => country.iso_2 === countryCode
-    );
-    if (validCountry) {
-      setCountryData((prevData) => ({
-        ...prevData,
-        selectedRegionId: selectedRegion.id,
-        currencyCode: currencyCode,
-      }));
-    } else {
-      console.error("Selected country is not valid for the cart region");
-    }
-  }
-  setFormData({ ...formData, country_code: countryCode });
-};
-
-export { inputUtil, countryUtil, billingUtil, formUtil };
+export { inputUtil, billingUtil, formUtil };

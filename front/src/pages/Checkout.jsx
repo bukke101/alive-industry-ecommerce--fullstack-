@@ -20,7 +20,7 @@ import {
 export default function Checkout() {
   const { cart, updateCart, setCart, setDiscountData } =
     useContext(CartContext);
-  const { user, setUser, setIsLogIn } = useContext(AccountContext);
+  const { user, setUser, setLogInData } = useContext(AccountContext);
   const cartId = cart?.id;
   const {
     countryData,
@@ -40,6 +40,7 @@ export default function Checkout() {
     options: [],
     shippingOption: null,
     selectedShippingOption: null,
+    isAddress: false,
   });
 
   const [orderData, setOrderData] = useState({
@@ -89,7 +90,7 @@ export default function Checkout() {
       setShippingData,
       setPaymentData,
       setUser,
-      setIsLogIn,
+      setLogInData,
       setDiscountData,
       setCountryData,
       setFormData
@@ -112,6 +113,8 @@ export default function Checkout() {
               isCheckout={isCheckout}
               selectCountry={selectCountry}
               cartData={cart}
+              shippingData={shippingData}
+              setShippingData={setShippingData}
             />
           }
 
@@ -135,6 +138,16 @@ export default function Checkout() {
             )}
         </div>
       )}
+
+      {!orderData.orderPlaced && (
+        <CartItems
+          cartData={cart}
+          shippingData={shippingData}
+          setShippingData={setShippingData}
+          currencyCode={currencyCode}
+          user={user}
+        />
+      )}
       <div>
         {orderData.orderPlaced ? (
           <CompletedOrder orderData={orderData} currencyCode={currencyCode} />
@@ -146,16 +159,6 @@ export default function Checkout() {
           )
         )}
       </div>
-
-      {!orderData.orderPlaced && (
-        <CartItems
-          cartData={cart}
-          shippingData={shippingData}
-          setShippingData={setShippingData}
-          currencyCode={currencyCode}
-          user={user}
-        />
-      )}
     </div>
   );
 }

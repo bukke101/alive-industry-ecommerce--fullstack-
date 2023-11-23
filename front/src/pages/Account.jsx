@@ -19,19 +19,15 @@ export default function Account() {
   const {
     user,
     setUser,
-    isLogIn,
-    setIsLogIn,
     accountData,
     setAccountData,
-    loggedIn,
-    setLoggedIn,
+    logInData,
+    setLogInData,
   } = useContext(AccountContext);
 
   const { setFormData, countryData, selectCountry, regions } =
     useContext(CountryContext);
-
   const navigate = useNavigate();
-
   const { cart, setCart } = useContext(CartContext);
   const cartId = cart?.id;
 
@@ -66,17 +62,16 @@ export default function Account() {
       setAccountMessage,
       selectCountry,
       regions,
-      setLoggedIn
+      setLogInData
     );
   };
   const handleLogOut = async () => {
     await logOutUtil(
       setUser,
-      setIsLogIn,
       setFormData,
       setSelectedData,
       setAccountData,
-      setLoggedIn
+      setLogInData
     );
     navigate("/products");
   };
@@ -120,13 +115,13 @@ export default function Account() {
   };
   return (
     <>
-      {!loggedIn ? (
+      {!logInData.loggedIn ? (
         <LoginForm
           accountData={accountData}
           setAccountData={setAccountData}
           logIn={handleLogIn}
-          isLogIn={isLogIn}
-          setIsLogIn={setIsLogIn}
+          logInData={logInData}
+          setLogInData={setLogInData}
           message={accountMessage}
           handleRegister={handleRegister}
         />

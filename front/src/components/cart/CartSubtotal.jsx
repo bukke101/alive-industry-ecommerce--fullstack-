@@ -32,6 +32,7 @@ export default function CartSubtotal({
             </li>
             <li>{`Taxes: ${formatCurrency(taxes)}`}</li>
             {discountAmount > 0 && <li>{`Discount: -${discountAmount}%`}</li>}
+            <br />
             <li>{`Total: ${formatCurrency(total)}`}</li>
           </>
         )}

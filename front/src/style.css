@@ -628,7 +628,10 @@ header .top-menu-contact .social-icons i:hover {
   padding: 0.453rem 0;
 }
 .cart-total {
-  margin-bottom: 0.938rem;
+  letter-spacing: 0.25px;
+  margin-bottom: 0.638rem;
+  line-height: 1.4rem;
+  padding-left: 0.5rem;
 }
 /**CHECKOUT**/
 .checkout-page,
@@ -640,30 +643,41 @@ header .top-menu-contact .social-icons i:hover {
 .shipping-options,
 .shipping-option,
 .payment-options,
-.payment-option {
+.payment-option,
+.selected-address-wrapper {
   display: flex;
 }
-.checkout-page {
+.checkout-page,
+.billing-form,
+.billing-text,
+.checkout-form,
+.selected-address-wrapper {
   width: 100%;
-  padding: 1.2rem;
+}
+.checkout-page {
   justify-content: center;
+  padding: 1.2rem;
+  border: 1px solid red;
+  gap: 3.125rem;
+}
+.cart-items,
+.checkout-form,
+.checkout-form {
+  background-color: #f8f8f8;
 }
 .checkout-page .cart-items {
-  width: 45%;
+  width: 30%;
 }
-.checkout-page .cart-items h3 {
-  padding: 0;
-}
+.checkout-page .cart-items h3,
 .checkout-page .cart-items ul li {
   padding: 0;
 }
 .checkout-page .cart-item img {
-  width: 45%;
+  max-width: 10.625rem;
   padding: 0.513rem;
 }
 .checkout-page .checkout-form {
-  margin-right: 0.938rem;
-  justify-content: center;
+  padding: 30px;
 }
 .checkout-page input {
   margin: 0.5rem;
@@ -674,27 +688,33 @@ header .top-menu-contact .social-icons i:hover {
 .checkout-page .shipping-form .fa-angle-down {
   margin-right: 0.25rem;
 }
-.checkout-page .country-dropdown {
-  width: 27%;
+.checkout-page .country-dropdown,
+.checkout-page .country-list {
   background: var(--color-white);
   border: 1px solid var(--color-input);
   border-radius: 0.188rem;
+}
+.checkout-page .country-dropdown {
+  width: 27%;
   margin: 0.5rem;
   text-indent: 0.225rem;
   font-size: 0.813rem;
   z-index: 1;
 }
+.selected-country,
+.billing-form,
+.billing-check,
+.discount-form,
+.shipping-option {
+  align-items: center;
+}
 .checkout-page .selected-country {
   height: 1.875rem;
-  align-items: center;
   justify-content: space-between;
 }
 .checkout-page .country-list {
   position: absolute;
   width: 12.5%;
-  background: var(--color-white);
-  border: 1px solid var(--color-input);
-  border-radius: 0.188rem;
   height: 18.75rem;
   overflow-y: auto;
   padding: 0;
@@ -708,62 +728,57 @@ header .top-menu-contact .social-icons i:hover {
 .checkout-page .billing-form .billing-check {
   height: 1.875rem;
   width: 2.325rem;
-  align-items: center;
-}
-.checkout-page .billing-form .billing-text {
-  width: 100%;
 }
 .checkout-page .billing-form {
-  align-items: center;
-  width: 100%;
   margin-bottom: 1.5rem;
 }
 .checkout-page h3 {
   padding: 1.6rem 0 0.413rem 0.413rem;
   font-size: 1rem;
 }
+.checkout-form button,
+.discount-form button {
+  padding: 0 1.563rem;
+}
 .checkout-form button {
   margin: 0.625rem;
-  padding: 0 1.563rem;
 }
 .checkout-page .back-btn {
   padding-left: 0.438rem;
 }
-.checkout-page .discount-form {
-  align-items: center;
-  margin-top: 1.5rem;
-  margin-right: 0.938rem;
+.selected-address-wrapper {
+  margin: 0.625rem 0 0 0.5rem;
+  justify-content: space-between;
 }
-.checkout-page .discount-form button {
-  padding: 0 1.563rem;
+.selected-address-wrapper .edit {
+  text-decoration: underline;
+}
+.selected-address-wrapper .selected-address {
+  font-size: 1rem;
+  line-height: 1.4rem;
+}
+.checkout-page .discount-form {
+  margin-top: 1.5rem;
 }
 .checkout-page .discount-msg {
   margin-left: 0.6rem;
 }
-.checkout-page .shipping-options {
+.shipping-options,
+.payment-options {
   flex-direction: column;
   margin-top: 1.563rem;
 }
-.checkout-page .shipping-option {
-  align-items: center;
-}
-.checkout-page .shipping-option input {
+.shipping-option input,
+.payment-option input {
   width: 1.125rem;
 }
-.checkout-page .payment-options {
-  flex-direction: column;
-  margin-top: 1.563rem;
-}
 .checkout-page .payment-options p {
-  font-size: 11px;
+  font-size: 0.688rem;
 }
 .checkout-page .payment-options button {
   width: 12.5rem;
   margin: 0.55rem;
   padding: 0 1.563rem;
-}
-.checkout-page .payment-option input {
-  width: 1.125rem;
 }
 /**COMPLETED**/
 .completed-order {

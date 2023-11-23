@@ -9,8 +9,10 @@ import {
 export const AccountContext = createContext();
 export function AccountProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLogIn, setIsLogIn] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [logInData, setLogInData] = useState({
+    isLogIn: true,
+    loggedIn: false,
+  });
   const [accountData, setAccountData] = useState({
     registerData: initialRegisterState,
     logInData: initialLoginState,
@@ -19,15 +21,18 @@ export function AccountProvider({ children }) {
   });
 
   useEffect(() => {
-    if (loggedIn) {
-      localStorage.setItem("user", JSON.stringify(loggedIn));
+    if (logInData.loggedIn) {
+      localStorage.setItem("user", JSON.stringify(logInData.loggedIn));
     }
-  }, [loggedIn]);
+  }, [logInData.loggedIn]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setLoggedIn(JSON.parse(storedUser));
+      setLogInData((prevState) => ({
+        ...prevState,
+        loggedIn: JSON.parse(storedUser),
+      }));
     }
   }, []);
 
@@ -36,12 +41,10 @@ export function AccountProvider({ children }) {
       value={{
         user,
         setUser,
-        isLogIn,
-        setIsLogIn,
         accountData,
         setAccountData,
-        loggedIn,
-        setLoggedIn,
+        logInData,
+        setLogInData,
       }}
     >
       {children}

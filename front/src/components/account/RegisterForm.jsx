@@ -5,8 +5,7 @@ export default function RegisterForm({
   setAccountData,
   handleLoginInput,
   handleRegister,
-  isLogIn,
-  setIsLogIn,
+  setLogInData,
 }) {
   const { registerData } = accountData;
   return (
@@ -51,7 +50,10 @@ export default function RegisterForm({
         Already a member?
         <span
           onClick={() => {
-            setIsLogIn(!isLogIn),
+            setLogInData((prevState) => ({
+              ...prevState,
+              isLogIn: true,
+            })),
               setAccountData((prevState) => ({
                 ...prevState,
                 logInData: initialLoginState,

@@ -6,18 +6,18 @@ export default function LoginForm({
   accountData,
   setAccountData,
   logIn,
-  isLogIn,
-  setIsLogIn,
   message,
   handleRegister,
+  logInData,
+  setLogInData,
 }) {
   const handleLoginInput = (name, value) => {
-    loginInputUtil(name, value, isLogIn, setAccountData);
+    loginInputUtil(name, value, logInData, setAccountData);
   };
 
   return (
     <div className="login-wrapper">
-      {isLogIn ? (
+      {logInData.isLogIn ? (
         <form onSubmit={logIn} className="login-form">
           <h3>Sign in</h3>
           <input
@@ -40,7 +40,10 @@ export default function LoginForm({
             Not a member?
             <span
               onClick={() => {
-                setIsLogIn(!isLogIn),
+                setLogInData((prevState) => ({
+                  ...prevState,
+                  isLogIn: false,
+                })),
                   setAccountData((prevState) => ({
                     ...prevState,
                     registerData: initialRegisterState,
@@ -56,8 +59,7 @@ export default function LoginForm({
           accountData={accountData}
           setAccountData={setAccountData}
           handleLoginInput={handleLoginInput}
-          isLogIn={isLogIn}
-          setIsLogIn={setIsLogIn}
+          setIsetLogInDatasLogIn={setLogInData}
           message={message}
           handleRegister={handleRegister}
         />

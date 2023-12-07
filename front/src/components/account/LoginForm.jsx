@@ -59,7 +59,7 @@ export default function LoginForm({
           accountData={accountData}
           setAccountData={setAccountData}
           handleLoginInput={handleLoginInput}
-          setIsetLogInDatasLogIn={setLogInData}
+          setLogInData={setLogInData}
           message={message}
           handleRegister={handleRegister}
         />

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import { initialLoginState } from "../../utils/common/initialState";
 export default function RegisterForm({
@@ -42,7 +43,10 @@ export default function RegisterForm({
         value={registerData.password}
         onChange={(e) => handleLoginInput("password", e.target.value)}
       />
-      <p>By creating an account, you agree to our Privacy Policy and Terms.</p>
+      <p>
+        By creating an account, you agree to our{" "}
+        <Link to="/privacy-policy">Privacy Policy and Terms.</Link>
+      </p>
       <button type="submit" disabled="">
         Register
       </button>

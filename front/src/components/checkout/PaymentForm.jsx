@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function PaymentForm({
   handlePayment,
   handleCheckout,
@@ -28,13 +29,16 @@ export default function PaymentForm({
     <div className="payment-options">
       <h3>Payment Methods</h3>
       <form>{paymentSession}</form>
-      <p>By confirming, you agree to our Privacy Policy and Terms.</p>
       <button
         onClick={handleCheckout}
         disabled={!paymentData?.isPaymentOptionSelected}
       >
         Complete Checkout
       </button>
+      <p>
+        By confirming, you agree to our{" "}
+        <Link to="/privacy-policy">Privacy Policy and Terms.</Link>
+      </p>
     </div>
   );
 }

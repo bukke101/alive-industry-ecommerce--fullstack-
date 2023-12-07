@@ -2,7 +2,7 @@ export default function SearchProducts({ sort, setSort, handleSortChange }) {
   return (
     <>
       <div className="search-wrapper">
-        <div></div>
+        <div className="empty-serach-div"></div>
         <div className="search-bar">
           <label htmlFor="search-form">
             <input
@@ -10,7 +10,7 @@ export default function SearchProducts({ sort, setSort, handleSortChange }) {
               name="search-form"
               id="search-form"
               className="search-input"
-              placeholder="Search / Filter Products..."
+              placeholder="search / filter products..."
               value={sort.q}
               onChange={(e) =>
                 setSort((prevState) => ({

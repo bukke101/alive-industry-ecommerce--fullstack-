@@ -13,7 +13,7 @@ import Team from "./pages/Team";
 import About from "./pages/About";
 import Account from "./pages/Account";
 import NotFound from "./components/notfound/NotFound";
-
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import "./style.css";
 
 const queryClient = new QueryClient();
@@ -46,6 +46,7 @@ function App() {
                   <Route path="/team" element={<Team />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/account" element={<Account />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 </Route>
               </Routes>
             </AccountProvider>

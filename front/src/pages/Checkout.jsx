@@ -5,10 +5,7 @@ import { CountryContext } from "../context/CountryContext";
 import { AccountContext } from "../context/AccountContext";
 import { fetchShippingOptions } from "../api/fetchShippingOptions";
 import CheckoutForm from "../components/checkout/CheckoutForm";
-import ShippingOptions from "../components/checkout/ShippingOptions";
-import PaymentForm from "../components/checkout/PaymentForm";
 import CompletedOrder from "../components/completed/CompletedOrder";
-import DiscountForm from "../components/checkout/DiscountForm";
 import CartItems from "../components/cart/CartItems";
 import {
   formSubmitUtil,
@@ -22,18 +19,8 @@ export default function Checkout() {
     useContext(CartContext);
   const { user, setUser, setLogInData } = useContext(AccountContext);
   const cartId = cart?.id;
-  const {
-    countryData,
-    setCountryData,
-    regions,
-    formData,
-    setFormData,
-    countryDisplay,
-    toggleCountry,
-    handleCountryChange,
-    isCheckout,
-    selectCountry,
-  } = useContext(CountryContext);
+  const { countryData, setCountryData, formData, setFormData } =
+    useContext(CountryContext);
   const currencyCode = countryData?.currencyCode;
 
   const [shippingData, setShippingData] = useState({
@@ -98,56 +85,32 @@ export default function Checkout() {
   };
 
   return (
-    <div className="checkout-page">
-      {cart?.items && (
-        <div>
-          {
-            <CheckoutForm
-              regions={regions}
-              formData={formData}
-              setFormData={setFormData}
-              handleFormSubmit={handleFormSubmit}
-              countryDisplay={countryDisplay}
-              toggleCountry={toggleCountry}
-              handleCountryChange={handleCountryChange}
-              isCheckout={isCheckout}
-              selectCountry={selectCountry}
-              cartData={cart}
-              shippingData={shippingData}
-              setShippingData={setShippingData}
-            />
-          }
-
-          {shippingData.options?.length > 0 && (
-            <ShippingOptions
-              shippingData={shippingData}
-              handleShipping={handleShipping}
-              cart={cart}
-              currencyCode={currencyCode}
-            />
-          )}
-          <DiscountForm />
-          {shippingData?.shippingOption &&
-            paymentData?.paymentSessions?.length > 0 && (
-              <PaymentForm
-                handlePayment={handlePayment}
-                handleCheckout={handleCheckout}
-                paymentData={paymentData}
-                setPaymentData={setPaymentData}
-              />
-            )}
-        </div>
-      )}
-
-      {!orderData.orderPlaced && (
-        <CartItems
-          cartData={cart}
-          shippingData={shippingData}
-          setShippingData={setShippingData}
-          currencyCode={currencyCode}
-          user={user}
-        />
-      )}
+    <>
+      <div className="checkout-page">
+        {cart?.items && (
+          <CheckoutForm
+            handleFormSubmit={handleFormSubmit}
+            cartData={cart}
+            shippingData={shippingData}
+            setShippingData={setShippingData}
+            handleShipping={handleShipping}
+            cart={cart}
+            handlePayment={handlePayment}
+            handleCheckout={handleCheckout}
+            paymentData={paymentData}
+            setPaymentData={setPaymentData}
+          />
+        )}
+        {!orderData.orderPlaced && (
+          <CartItems
+            cartData={cart}
+            shippingData={shippingData}
+            setShippingData={setShippingData}
+            currencyCode={currencyCode}
+            user={user}
+          />
+        )}
+      </div>
       <div>
         {orderData.orderPlaced ? (
           <CompletedOrder orderData={orderData} currencyCode={currencyCode} />
@@ -159,6 +122,6 @@ export default function Checkout() {
           )
         )}
       </div>
-    </div>
+    </>
   );
 }

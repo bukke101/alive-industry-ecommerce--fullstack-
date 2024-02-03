@@ -22,17 +22,30 @@ export function AccountProvider({ children }) {
 
   useEffect(() => {
     if (logInData.loggedIn) {
-      localStorage.setItem("user", JSON.stringify(logInData.loggedIn));
+      localStorage.setItem("loginState", JSON.stringify(logInData.loggedIn));
     }
   }, [logInData.loggedIn]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    const storedLoginData = localStorage.getItem("loginState");
+    if (storedLoginData) {
       setLogInData((prevState) => ({
         ...prevState,
-        loggedIn: JSON.parse(storedUser),
+        loggedIn: JSON.parse(storedLoginData),
       }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 

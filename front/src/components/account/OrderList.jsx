@@ -5,6 +5,9 @@ export default function OrderList({
   showOrders,
   setSelectedData,
   countryData,
+  currentPage,
+  setCurrentPage,
+  itemsPerPage,
 }) {
   const toggleOrder = (order) => {
     setSelectedData((prevState) => ({
@@ -34,14 +37,30 @@ export default function OrderList({
       </div>
     );
   });
+
+  const hasMoreOrders = orderList?.length === itemsPerPage;
+
+  const nextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+  const prevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
   return (
     showOrders && (
       <div className="order-list">
         <h3>All orders</h3>
-        {orderList.length > 0 ? (
-          orderList
+        {orderList?.length > 0 ? (
+          <div>
+            {orderList}
+            <div className="pagination">
+              {currentPage > 1 && <button onClick={prevPage}>Prev</button>}
+              {hasMoreOrders && <button onClick={nextPage}>Next</button>}
+            </div>
+          </div>
         ) : (
-          <p>You have no orders. go to store</p>
+          <p>You have no orders. Go to store.</p>
         )}
       </div>
     )

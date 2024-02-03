@@ -229,6 +229,7 @@ const logOutUtil = async (
     loggedIn: false,
   });
   setFormData(initialCheckoutState);
+  localStorage.removeItem("loginState");
   localStorage.removeItem("user");
   setSelectedData({
     selectedOrder: null,

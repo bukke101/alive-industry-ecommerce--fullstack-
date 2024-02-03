@@ -47,9 +47,12 @@ const logInUser = async (accountData, cartId, setCart) => {
   }
 };
 
-const customerOrders = async () => {
+const customerOrders = async (itemsPerPage, offset) => {
   try {
-    const response = await medusa.customers.listOrders();
+    const response = await medusa.customers.listOrders({
+      limit: itemsPerPage,
+      offset: offset,
+    });
     return response.orders;
   } catch (error) {
     console.error("Error fetching orders:", error);

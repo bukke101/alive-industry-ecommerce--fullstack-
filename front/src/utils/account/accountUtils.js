@@ -55,14 +55,17 @@ const logInUtil = async (
   setAccountMessage,
   selectCountry,
   regions,
-  setLoggedIn
+  setLogInData
 ) => {
   try {
     const loggedInUser = await logInUser(accountData, cartId, setCart);
     if (loggedInUser) {
       addCountryUtil(loggedInUser, regions, selectCountry);
       setUser(loggedInUser);
-      setLoggedIn(true);
+      setLogInData((prevState) => ({
+        ...prevState,
+        loggedIn: true,
+      }));
       setFormData((prevState) => ({
         ...prevState,
         email: loggedInUser.email,
@@ -214,18 +217,20 @@ const updateProfileUtil = async (
 
 const logOutUtil = async (
   setUser,
-  setIsLogIn,
   setFormData,
   setSelectedData,
   setAccountData,
-  setLoggedIn
+  setLogInData
 ) => {
   await logOutUser();
   setUser(null);
-  setIsLogIn(true);
+  setLogInData({
+    isLogIn: true,
+    loggedIn: false,
+  });
   setFormData(initialCheckoutState);
+  localStorage.removeItem("loginState");
   localStorage.removeItem("user");
-  setLoggedIn(false);
   setSelectedData({
     selectedOrder: null,
     selectedAddress: null,
@@ -238,8 +243,8 @@ const logOutUtil = async (
   });
 };
 
-const loginInputUtil = (name, value, isLogIn, setAccountData) => {
-  isLogIn
+const loginInputUtil = (name, value, logInData, setAccountData) => {
+  logInData.isLogIn
     ? setAccountData((prevState) => ({
         ...prevState,
         logInData: {

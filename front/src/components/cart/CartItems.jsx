@@ -38,7 +38,7 @@ export default function CartItems({
         <Link to="/products" className="back-btn">
           &larr; <span>back to store</span>
         </Link>
-        {!user && <Link to="/account">Sign in</Link>}
+        {!user && <Link to="/account">sign in</Link>}
       </div>
     );
 

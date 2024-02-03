@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import FooterMenu from "./FooterMenu";
 import FooterStoreNav from "./FooterStoreNav";
 export default function Footer() {
@@ -10,7 +11,9 @@ export default function Footer() {
       <FooterMenu />
       <div className="footer">
         <p>
-          shippings & returns || terms & condition || privacy policy || ©{year}
+          <Link to="/privacy-policy">shippings & returns</Link> ||{" "}
+          <Link to="/privacy-policy">terms & condition</Link> ||{" "}
+          <Link to="/privacy-policy">privacy policy</Link> || ©{year}
         </p>
       </div>
     </div>

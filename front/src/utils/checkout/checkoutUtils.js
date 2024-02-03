@@ -42,7 +42,7 @@ const checkoutUtil = async (
   setShippingData,
   setPaymentData,
   setUser,
-  setIsLogIn,
+  setLogInData,
   setDiscountData,
   setCountryData,
   setFormData
@@ -55,11 +55,15 @@ const checkoutUtil = async (
       localStorage.removeItem("cart");
       setUser(null);
       updateCart(null);
-      setIsLogIn(true);
+      setLogInData((prevState) => ({
+        ...prevState,
+        isLogIn: true,
+      }));
       setShippingData({
         options: [],
         shippingOption: null,
         selectedShippingOption: null,
+        isAddress: false,
       });
       setPaymentData({
         paymentSessions: null,
@@ -77,6 +81,8 @@ const checkoutUtil = async (
         selectedRegionId: "",
       });
       setFormData(initialCheckoutState);
+      // need ?? and if decide to leave decide what to do localstorage if not logged out?
+      // setLoggedIn(false);
     } else {
       console.error("Error completing cart:", data);
     }

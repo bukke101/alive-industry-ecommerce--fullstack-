@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { customerOrders } from "../../api/accountOperations";
 import Orders from "./Orders";
 import Profile from "./Profile";
 import Addresses from "./Addresses";
-import Loading from "../loading/Loading";
 
 export default function Dashboard({
   handleLogOut,
@@ -21,7 +18,6 @@ export default function Dashboard({
   handleUpdateProfile,
   accountMessage,
 }) {
-  const results = useQuery(["orders"], customerOrders);
   const [activeSection, setActiveSection] = useState(null);
 
   const toggleSection = (section) => {
@@ -35,19 +31,9 @@ export default function Dashboard({
 
   return (
     <div className="dashboard-wrapper">
-      {results.isLoading && <Loading />}
       <div className="dashboard-header">
-        {!results.data?.length > 0 ? (
-          <>
-            <h3>Welcome {user && user?.first_name}</h3>
-            <p>{user && user?.email}</p>
-          </>
-        ) : (
-          <>
-            <h3>Hi, {results.data[0]?.customer?.first_name}</h3>
-            <p>{results.data[0]?.email}</p>
-          </>
-        )}
+        <h3>Hi, {user && user?.first_name}</h3>
+        <p>{user && user?.email}</p>
       </div>
       <div className="dashboard-top-nav">
         <button onClick={() => toggleSection("orders")}>Orders</button>
@@ -59,7 +45,6 @@ export default function Dashboard({
       </div>
 
       <Orders
-        results={results}
         showOrders={activeSection === "orders"}
         selectedData={selectedData}
         setSelectedData={setSelectedData}
@@ -94,7 +79,6 @@ export default function Dashboard({
         Welcome to your personal page, Where you can view/manage all your
         orders, add/edit a shipping address & personal info. Start Exploring
       </div>
-      {results.isError && <span>Error fetching orders</span>}
     </div>
   );
 }

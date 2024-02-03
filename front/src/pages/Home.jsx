@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+// import { Button, buttonVariants } from "@/components/ui/button";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 export default function Home() {
   return (
@@ -11,6 +13,9 @@ export default function Home() {
           </div>
         </div>
       </Link>
+      {/* <Button variant="outline">Button</Button> */}
+      {/* <Link className={buttonVariants({ variant: "outline" })}>Click here</Link>  */}
+
       <div className="home-col2">
         <img src="https://img.youtube.com/vi/pM51dEgN-MQ/0.jpg" />
         <img src="https://img.youtube.com/vi/2RhL6BcoKRA/0.jpg" />

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchRegions from "../api/fetchRegions";
 import { countryChangeUtil } from "../utils/account/countryUtils";
@@ -7,7 +7,7 @@ import { initialCheckoutState } from "../utils/common/initialState";
 export const CountryContext = createContext();
 export function CountryProvider({ children }) {
   const results = useQuery(["regions"], fetchRegions);
-  const regions = results?.data ?? [];
+  const regions = useMemo(() => results?.data ?? [], [results]);
 
   const [formData, setFormData] = useState(initialCheckoutState);
   const [countryDisplay, setCountryDisplay] = useState("country");
@@ -20,30 +20,36 @@ export function CountryProvider({ children }) {
   const [isFooter, setIsFooter] = useState(false);
   const [isCheckout, setIsCheckout] = useState(false);
 
-  const toggleCountry = (type) => {
+  const toggleCountry = useCallback((type) => {
     if (type === "footer") {
-      setIsFooter(!isFooter);
+      setIsFooter((prevIsFooter) => !prevIsFooter);
     } else if (type === "checkout") {
-      setIsCheckout(!isCheckout);
+      setIsCheckout((prevIsCheckout) => !prevIsCheckout);
     }
-  };
+  }, []);
 
-  const selectCountry = (countryCode, displayName) => {
-    handleCountryChange(countryCode);
-    setCountryDisplay(displayName);
-    isFooter && toggleCountry("footer");
-    isCheckout && toggleCountry("checkout");
-  };
+  const handleCountryChange = useCallback(
+    (countryCode) => {
+      countryChangeUtil(
+        countryCode,
+        regions,
+        setCountryData,
+        formData,
+        setFormData
+      );
+    },
+    [regions, formData, setCountryData, setFormData]
+  );
 
-  const handleCountryChange = (countryCode) => {
-    countryChangeUtil(
-      countryCode,
-      regions,
-      setCountryData,
-      formData,
-      setFormData
-    );
-  };
+  const selectCountry = useCallback(
+    (countryCode, displayName) => {
+      handleCountryChange(countryCode);
+      setCountryDisplay(displayName);
+      isFooter && toggleCountry("footer");
+      isCheckout && toggleCountry("checkout");
+    },
+    [handleCountryChange, isFooter, isCheckout, toggleCountry]
+  );
 
   return (
     <CountryContext.Provider

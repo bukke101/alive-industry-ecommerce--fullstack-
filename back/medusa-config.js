@@ -30,7 +30,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:5174,http://local
 
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
-
+  
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
 const plugins = [
@@ -52,16 +52,28 @@ const plugins = [
       },
     },
   },
+  {
+    resolve: `medusa-plugin-sendgrid`,
+    options: {
+      api_key: process.env.SENDGRID_API_KEY,
+      from: process.env.SENDGRID_FROM,
+      order_placed_template: 
+        process.env.SENDGRID_ORDER_PLACED_ID,
+    },
+  },
 ];
 
 const modules = {
-  /*eventBus: {
+  // eventBus: {
+  //   resolve: "@medusajs/event-bus-local",
+  // },
+  eventBus: {
     resolve: "@medusajs/event-bus-redis",
     options: {
       redisUrl: REDIS_URL
     }
   },
-  cacheService: {
+  /*cacheService: {
     resolve: "@medusajs/cache-redis",
     options: {
       redisUrl: REDIS_URL

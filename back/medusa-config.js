@@ -23,7 +23,7 @@ try {
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =
-  process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
+  process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001,http://localhost:5174";
 
 // CORS to avoid issues when consuming Medusa from a client
 const STORE_CORS = process.env.STORE_CORS || "http://localhost:5174,http://localhost:8000";
@@ -59,6 +59,12 @@ const plugins = [
       from: process.env.SENDGRID_FROM,
       order_placed_template: 
         process.env.SENDGRID_ORDER_PLACED_ID,
+        order_canceled_template: 
+        process.env.SENDGRID_ORDER_CANCELED_ID,
+        user_password_reset_template:
+        process.env.SENDGRID_USER_PASSWORD_RESET_ID,
+        customer_password_reset_template:
+        process.env.SENDGRID_CUSTOMER_PASSWORD_RESET_ID,
     },
   },
 ];

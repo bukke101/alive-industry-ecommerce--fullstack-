@@ -4,6 +4,8 @@ import { customerOrders } from "../../api/accountOperations";
 import OrderDetails from "./OrderDetails";
 import OrderList from "./OrderList";
 import Loading from "../loading/Loading";
+import { DataTable } from "./DataTable";
+import { columns } from "./Columns";
 export default function Orders({
   showOrders,
   setSelectedData,
@@ -14,8 +16,18 @@ export default function Orders({
   const [itemsPerPage] = useState(10);
   const offset = (currentPage - 1) * itemsPerPage;
   const results = useQuery(["orders", currentPage], () =>
-    customerOrders(itemsPerPage, offset)
+    customerOrders(itemsPerPage, offset),
   );
+  const getData = () => {
+    return results?.data?.map((order) => ({
+      id: order.display_id,
+      date: order.created_at,
+      fullfillment: order.fulfillment_status,
+      payment_status: order.payment_status,
+      total: order.paid_total,
+    }));
+  };
+  const data = getData();
 
   return (
     <div className="order-wrapper">
@@ -29,11 +41,12 @@ export default function Orders({
         itemsPerPage={itemsPerPage}
       />
       {selectedData?.selectedOrder && (
-        <OrderDetails
-          selectedData={selectedData}
-          setSelectedData={setSelectedData}
-          countryData={countryData}
-        />
+        <DataTable columns={columns} data={data} />
+        // <OrderDetails
+        //   selectedData={selectedData}
+        //   setSelectedData={setSelectedData}
+        //   countryData={countryData}
+        // />
       )}
       {results.isLoading && <Loading />}
       {results.isError && <span>Error fetching orders</span>}

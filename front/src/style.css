@@ -40,7 +40,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
-input {
+/* input {
   height: 2.2rem;
   text-indent: 0.625rem;
   font-family: "Inter", sans-serif;
@@ -48,7 +48,7 @@ input {
   outline: none;
   width: 100%;
   border-radius: 0.188rem;
-}
+} */
 select {
   height: 1.875rem;
   text-indent: 0.2rem;

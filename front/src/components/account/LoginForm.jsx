@@ -1,10 +1,12 @@
+import { useState } from "react";
 import RegisterForm from "./RegisterForm";
 import PasswordInput from "./PasswordInput";
 import { loginInputUtil } from "../../utils/account/accountUtils";
 import { initialRegisterState } from "../../utils/common/initialState";
-import { useState } from "react";
-import ResetPassword from "./ResetPassword";
+import ForgotPassword from "./ForgotPassword";
 import { generatePasswordToken } from "../../api/accountOperations";
+import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
 export default function LoginForm({
   accountData,
   setAccountData,
@@ -15,8 +17,14 @@ export default function LoginForm({
   setLogInData,
 }) {
   const [email, setEmail] = useState("");
+  const [reset, setReset] = useState(false);
+
   const handleLoginInput = (name, value) => {
     loginInputUtil(name, value, logInData, setAccountData);
+  };
+
+  const handleReset = () => {
+    setReset((prevState) => !prevState);
   };
 
   // add success and errpr message
@@ -28,50 +36,63 @@ export default function LoginForm({
       console.error("Error resetting password:", error);
     }
   };
-
   return (
-    <div className="login-wrapper">
+    <div className="flex-col rounded-lg border w-21 items-center justify-center px-2 py-2 text-center">
       {logInData.isLogIn ? (
         <>
-          <form onSubmit={logIn} className="login-form">
+          <form onSubmit={logIn} className="w-full">
             <h3>Sign in</h3>
-            <input
+            <Input
               type="email"
               id="email"
               name="email"
+              placeholder="Email"
               value={accountData?.logInData?.email}
               onChange={(e) => handleLoginInput("email", e.target.value)}
-              placeholder="Email"
+              className="max-w-sm mb-1"
               required
             />
             <PasswordInput
               value={accountData?.logInData?.password}
               onChange={(e) => handleLoginInput("password", e.target.value)}
             />
-            <button type="submit">Sign in</button>
-            <p>
-              Not a member?
-              <span
-                onClick={() => {
-                  setLogInData((prevState) => ({
-                    ...prevState,
-                    isLogIn: false,
-                  })),
-                    setAccountData((prevState) => ({
+            <Button type="submit" variant="outline" size="sm">
+              Sign in
+            </Button>
+            <div className="flex justify-between text-xs">
+              <div>
+                Not a member?
+                <span
+                  className="cursor-pointer hover:underline"
+                  onClick={() => {
+                    setLogInData((prevState) => ({
                       ...prevState,
-                      registerData: initialRegisterState,
-                    }));
-                }}
-              >
-                Join
-              </span>
-            </p>
+                      isLogIn: false,
+                    })),
+                      setAccountData((prevState) => ({
+                        ...prevState,
+                        registerData: initialRegisterState,
+                      }));
+                  }}
+                >
+                  Join
+                </span>
+              </div>
+              <div>
+                <span
+                  className="cursor-pointer hover:underline"
+                  onClick={handleReset}
+                >
+                  forgot password?
+                </span>
+              </div>
+            </div>
           </form>
-          <ResetPassword
+          {/* <ForgotPassword
             handlePasswordToken={handlePasswordToken}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
+          /> */}
         </>
       ) : (
         <RegisterForm
@@ -83,7 +104,7 @@ export default function LoginForm({
           handleRegister={handleRegister}
         />
       )}
-      <p className="error-message">{message}</p>
+      <span className="error-message text-xs">{message}</span>
     </div>
   );
 }

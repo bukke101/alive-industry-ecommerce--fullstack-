@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import { initialLoginState } from "../../utils/common/initialState";
+import { Input } from "../../../components/ui/input";
 export default function RegisterForm({
   accountData,
   setAccountData,
@@ -12,7 +13,37 @@ export default function RegisterForm({
   return (
     <form onSubmit={handleRegister} className="login-form">
       <h3>Create an Account</h3>
-      <input
+      <Input
+        type="text"
+        id="first_name"
+        name="first_name"
+        placeholder="First Name"
+        value={registerData.first_name}
+        onChange={(e) => handleLoginInput("first_name", e.target.value)}
+        className="max-w-sm"
+        required
+      />
+      <Input
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Last Name"
+        value={registerData.last_name}
+        onChange={(e) => handleLoginInput("last_name", e.target.value)}
+        className="max-w-sm"
+        required
+      />
+      <Input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        value={registerData.email}
+        onChange={(e) => handleLoginInput("email", e.target.value)}
+        className="max-w-sm"
+        required
+      />
+      {/* <input
         type="text"
         id="first_name"
         name="first_name"
@@ -20,8 +51,8 @@ export default function RegisterForm({
         onChange={(e) => handleLoginInput("first_name", e.target.value)}
         placeholder="First Name"
         required
-      />
-      <input
+      /> */}
+      {/* <input
         type="text"
         id="last_name"
         name="last_name"
@@ -29,8 +60,8 @@ export default function RegisterForm({
         onChange={(e) => handleLoginInput("last_name", e.target.value)}
         placeholder="Last Name"
         required
-      />
-      <input
+      /> */}
+      {/* <input
         type="email"
         id="email"
         name="email"
@@ -38,7 +69,7 @@ export default function RegisterForm({
         onChange={(e) => handleLoginInput("email", e.target.value)}
         placeholder="Email"
         required
-      />
+      /> */}
       <PasswordInput
         value={registerData.password}
         onChange={(e) => handleLoginInput("password", e.target.value)}

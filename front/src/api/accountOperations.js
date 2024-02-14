@@ -158,6 +158,19 @@ const generatePasswordToken = async (email) => {
   }
 };
 
+const resetPassword = async (requestData) => {
+  try {
+    await medusa.customers.resetPassword({
+      email: requestData.email,
+      password: requestData.password,
+      token: requestData.token,
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    throw error;
+  }
+};
+
 export {
   createCustomer,
   logInUser,
@@ -168,4 +181,5 @@ export {
   deleteShippingAddress,
   updateProfile,
   generatePasswordToken,
+  resetPassword,
 };

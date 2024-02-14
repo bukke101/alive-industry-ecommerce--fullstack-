@@ -22,7 +22,7 @@ const registerUtil = async (
   setCart,
   setUser,
   setFormData,
-  setAccountMessage
+  setAccountMessage,
 ) => {
   try {
     const registeredUser = await createCustomer(accountData, cartId, setCart);
@@ -55,7 +55,7 @@ const logInUtil = async (
   setAccountMessage,
   selectCountry,
   regions,
-  setLogInData
+  setLogInData,
 ) => {
   try {
     const loggedInUser = await logInUser(accountData, cartId, setCart);
@@ -95,7 +95,7 @@ const addAddressUtil = async (
   setUser,
   regions,
   selectCountry,
-  setAccountMessage
+  setAccountMessage,
 ) => {
   try {
     const updatedAddress = await addShippingAddress(accountData);
@@ -133,14 +133,14 @@ const updateAddressUtil = async (
   accountData,
   setAccountData,
   setUser,
-  setAccountMessage
+  setAccountMessage,
 ) => {
   try {
     await updateShippingAddress(
       selectedData,
       accountData,
       setAccountData,
-      setUser
+      setUser,
     );
     setAccountData((prevState) => ({
       ...prevState,
@@ -180,7 +180,7 @@ const deleteAddressUtil = async (
   addressId,
   setUser,
   setFormData,
-  setAccountMessage
+  setAccountMessage,
 ) => {
   try {
     const updatedUser = await deleteShippingAddress(addressId);
@@ -199,7 +199,7 @@ const updateProfileUtil = async (
   setAccountData,
   setUser,
   setAccountMessage,
-  setSelectedData
+  setSelectedData,
 ) => {
   try {
     await updateProfile(accountData, setUser, setAccountData);
@@ -220,7 +220,7 @@ const logOutUtil = async (
   setFormData,
   setSelectedData,
   setAccountData,
-  setLogInData
+  setLogInData,
 ) => {
   await logOutUser();
   setUser(null);

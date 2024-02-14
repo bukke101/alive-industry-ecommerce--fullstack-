@@ -9,6 +9,7 @@ export default function Profile({
 }) {
   const { updateForm } = accountData;
   const profile = selectedData?.profile;
+
   const handleInputChange = (name, value) => {
     setAccountData((prevState) => ({
       ...prevState,

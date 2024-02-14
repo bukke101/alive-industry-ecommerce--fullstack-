@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Input } from "../../../components/ui/input";
 export default function PasswordInput({ value, onChange }) {
   const [type, setType] = useState("password");
 
@@ -8,19 +8,24 @@ export default function PasswordInput({ value, onChange }) {
   };
 
   return (
-    <div className="password">
-      <input
+    <div className="flex items-center relative mb-4">
+      <Input
         type={type}
+        placeholder="Password"
         value={value}
         onChange={onChange}
-        placeholder="Password"
+        className="max-w-sm"
         required
       />
       {type === "password" ? (
-        <i className="fa fa-eye" aria-hidden="true" onClick={handleToggle} />
+        <i
+          className="fa fa-eye absolute right-0 pr-2"
+          aria-hidden="true"
+          onClick={handleToggle}
+        />
       ) : (
         <i
-          className="fa fa-eye-slash"
+          className="fa fa-eye-slash absolute right-0 pr-2"
           aria-hidden="true"
           onClick={handleToggle}
         />

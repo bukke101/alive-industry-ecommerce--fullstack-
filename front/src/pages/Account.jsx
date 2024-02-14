@@ -47,7 +47,7 @@ export default function Account() {
       setCart,
       setUser,
       setFormData,
-      setAccountMessage
+      setAccountMessage,
     );
   };
   const handleLogIn = async (e) => {
@@ -62,7 +62,7 @@ export default function Account() {
       setAccountMessage,
       selectCountry,
       regions,
-      setLogInData
+      setLogInData,
     );
   };
   const handleLogOut = async () => {
@@ -71,7 +71,7 @@ export default function Account() {
       setFormData,
       setSelectedData,
       setAccountData,
-      setLogInData
+      setLogInData,
     );
     navigate("/products");
   };
@@ -83,7 +83,7 @@ export default function Account() {
         accountData,
         setAccountData,
         setUser,
-        setAccountMessage
+        setAccountMessage,
       );
     } else {
       await addAddressUtil(
@@ -93,7 +93,7 @@ export default function Account() {
         setUser,
         regions,
         selectCountry,
-        setAccountMessage
+        setAccountMessage,
       );
     }
   };
@@ -110,7 +110,7 @@ export default function Account() {
       setAccountData,
       setUser,
       setAccountMessage,
-      setSelectedData
+      setSelectedData,
     );
   };
   return (

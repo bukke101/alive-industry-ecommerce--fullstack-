@@ -12,7 +12,7 @@ export default (container) => {
     const { id, email, token } = event;
 
     // Construct the reset password URL
-    const resetPasswordUrl = `http://localhost:5174/new-password?token=${token}`;
+    const resetPasswordUrl = `http://localhost:5174/reset-password?token=${token}`;
 
 
   // Prepare the email message using SendGrid template

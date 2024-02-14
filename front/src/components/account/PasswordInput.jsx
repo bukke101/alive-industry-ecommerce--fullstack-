@@ -8,7 +8,7 @@ export default function PasswordInput({ value, onChange }) {
   };
 
   return (
-    <div className="flex items-center relative mb-4">
+    <div className="flex items-center relative mb-1">
       <Input
         type={type}
         placeholder="Password"

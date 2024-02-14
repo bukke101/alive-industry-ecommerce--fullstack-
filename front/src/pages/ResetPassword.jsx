@@ -4,7 +4,8 @@ import PasswordInput from "../components/account/PasswordInput";
 import { resetPassword } from "../api/accountOperations";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
-export default function NewPassword() {
+import { removeMessage } from "../utils/common/genralUtils";
+export default function ResetPassword() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -24,24 +25,25 @@ export default function NewPassword() {
   };
   const handleRequestInput = async (e) => {
     e.preventDefault();
-    await resetPassword(requestData);
-
-    setMessage("Password reset successful");
-    navigate("/account");
-
-    setRequestData({
-      email: "",
-      password: "",
-      token: "",
-    });
+    try {
+      await resetPassword(requestData);
+      setMessage("Password reset successful");
+      navigate("/account");
+      setRequestData({
+        email: "",
+        password: "",
+        token: "",
+      });
+      removeMessage(setMessage);
+    } catch (error) {
+      setMessage("Password reset failed");
+      removeMessage(setMessage);
+    }
   };
   return (
-    <>
-      <form
-        onSubmit={handleRequestInput}
-        className="rounded-lg border flex-col px-3"
-      >
-        <h3 className="">Reset</h3>
+    <div className="flex-col rounded-lg border w-21 items-center justify-center px-8 text-center">
+      <form onSubmit={handleRequestInput} className="w-full">
+        <h3 className="text-xl font-semibold py-10">Reset Password</h3>
         <Input
           type="email"
           id="email"
@@ -49,18 +51,18 @@ export default function NewPassword() {
           placeholder="Email"
           value={requestData.first_name}
           onChange={(e) => handleInputChange("email", e.target.value)}
-          className="max-w-sm"
+          className="max-w-sm mb-1"
           required
         />
         <PasswordInput
           value={requestData.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
         />
-        <Button type="submit" variant="outline" size="sm">
+        <Button type="submit" size="sm" className="w-full">
           Submit
         </Button>
       </form>
       {message && <p>{message}</p>}
-    </>
+    </div>
   );
 }

@@ -1,5 +1,8 @@
 import CountriesList from "../countries/CountriesList";
 import { initialCheckoutState } from "../../utils/common/initialState";
+import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
+
 export default function ShippingForm({
   showShipping,
   accountData,
@@ -63,103 +66,110 @@ export default function ShippingForm({
 
           <div className="fullname">
             <div className="form-two-column">
-              <input
+              <Input
                 type="text"
                 id="first_name"
                 name="first_name"
+                placeholder="First Name"
                 value={first_name}
                 onChange={handleShippingInput}
-                placeholder="First Name"
+                className="max-w-sm mb-1"
                 required
               />
             </div>
             <div className="form-two-column">
-              <input
+              <Input
                 type="text"
                 id="last_name"
                 name="last_name"
+                placeholder="Last Name"
                 value={last_name}
                 onChange={handleShippingInput}
-                placeholder="Last Name"
+                className="max-w-sm mb-1"
                 required
               />
             </div>
           </div>
-          <input
+          <Input
             type="text"
             id="company"
             name="company"
+            placeholder="Company"
             value={company}
             onChange={handleShippingInput}
-            placeholder="Company"
+            className="max-w-sm mb-1"
           />
-          <input
+          <Input
             type="text"
             id="address_1"
             name="address_1"
+            placeholder="Address"
             value={address_1}
             onChange={handleShippingInput}
-            placeholder="Address"
+            className="max-w-sm mb-1"
             required
           />
-          <input
+          <Input
             type="text"
             id="address_2"
             name="address_2"
+            placeholder="Apartments, Suite, etc."
             value={address_2}
             onChange={handleShippingInput}
-            placeholder="Apartments, Suite, etc."
+            className="max-w-sm mb-1"
           />
           <div className="fullname">
             <div className="form-two-column">
-              <input
+              <Input
                 type="text"
                 id="city"
                 name="city"
+                placeholder="City"
                 value={city}
                 onChange={handleShippingInput}
-                placeholder="City"
+                className="max-w-sm mb-1"
                 required
               />
             </div>
             <div className="form-two-column">
-              <input
+              <Input
                 type="text"
                 id="postal_code"
                 name="postal_code"
+                placeholder="Postal code"
                 value={postal_code}
                 onChange={handleShippingInput}
-                placeholder="Postal Code"
+                className="max-w-sm mb-1"
                 required
               />
             </div>
           </div>
-          <input
+          <Input
             type="text"
             id="province"
             name="province"
+            placeholder="Province"
             value={province}
             onChange={handleShippingInput}
-            placeholder="State / Province"
+            className="max-w-sm mb-1"
             required
           />
-
-          <input
+          <Input
             type="tel"
             id="phone"
             name="phone"
+            placeholder="Phone"
             value={phone}
             onChange={handleShippingInput}
-            placeholder="Phone"
+            className="max-w-sm mb-1"
           />
-          <button type="sumbit">
+          <Button type="submit" size="sm" className="w-full">
             {selectedData?.selectedAddress ? "Edit Address" : "Add Address"}
-          </button>
-
+          </Button>
           {selectedData?.selectedAddress && (
-            <button type="button" onClick={handleClearForm}>
-              cancel
-            </button>
+            <Button size="sm" className="w-full" onClick={handleClearForm}>
+              Cancel
+            </Button>
           )}
         </div>
       </form>

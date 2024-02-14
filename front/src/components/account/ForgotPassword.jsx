@@ -1,13 +1,19 @@
 import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
 export default function ForgotPassword({
   value,
   onChange,
+  toggle,
   handlePasswordToken,
 }) {
   return (
-    <div>
-      <form onSubmit={handlePasswordToken} className="login-form">
-        <h3>Reset Password</h3>
+    <>
+      <form className="w-full" onSubmit={handlePasswordToken}>
+        <h3 className="text-xl font-semibold py-10">Reset Password</h3>
+        <h4 className="text-sm tracking-tight pb-4">
+          Enter your account email and follow the instructions sent to your
+          email.
+        </h4>
         <Input
           type="email"
           id="email"
@@ -15,11 +21,18 @@ export default function ForgotPassword({
           placeholder="Email"
           value={value}
           onChange={onChange}
-          className="max-w-sm"
+          className="max-w-sm mb-1"
           required
         />
-        <button type="submit">Submit</button>
+        <Button type="submit" size="sm" className="w-full">
+          Submit
+        </Button>
       </form>
-    </div>
+      <div className="flex justify-end text-xs py-2">
+        <span className="cursor-pointer hover:underline" onClick={toggle}>
+          Back to login
+        </span>
+      </div>
+    </>
   );
 }

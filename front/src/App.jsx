@@ -14,7 +14,7 @@ import About from "./pages/About";
 import Account from "./pages/Account";
 import NotFound from "./components/notfound/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import NewPassword from "./pages/NewPassword";
+import ResetPassword from "./pages/ResetPassword";
 import "./style.css";
 
 const queryClient = new QueryClient();
@@ -48,7 +48,7 @@ function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/account" element={<Account />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="/new-password" element={<NewPassword />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                 </Route>
               </Routes>
             </AccountProvider>

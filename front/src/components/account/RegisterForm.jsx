@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import { initialLoginState } from "../../utils/common/initialState";
 import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
 export default function RegisterForm({
   accountData,
   setAccountData,
@@ -11,8 +12,8 @@ export default function RegisterForm({
 }) {
   const { registerData } = accountData;
   return (
-    <form onSubmit={handleRegister} className="login-form">
-      <h3>Create an Account</h3>
+    <form onSubmit={handleRegister} className="">
+      <h3 className="text-xl font-semibold py-10">Create an Account</h3>
       <Input
         type="text"
         id="first_name"
@@ -20,7 +21,7 @@ export default function RegisterForm({
         placeholder="First Name"
         value={registerData.first_name}
         onChange={(e) => handleLoginInput("first_name", e.target.value)}
-        className="max-w-sm"
+        className="max-w-sm mb-1"
         required
       />
       <Input
@@ -30,7 +31,7 @@ export default function RegisterForm({
         placeholder="Last Name"
         value={registerData.last_name}
         onChange={(e) => handleLoginInput("last_name", e.target.value)}
-        className="max-w-sm"
+        className="max-w-sm mb-1"
         required
       />
       <Input
@@ -40,50 +41,27 @@ export default function RegisterForm({
         placeholder="Email"
         value={registerData.email}
         onChange={(e) => handleLoginInput("email", e.target.value)}
-        className="max-w-sm"
+        className="max-w-sm mb-1"
         required
       />
-      {/* <input
-        type="text"
-        id="first_name"
-        name="first_name"
-        value={registerData.first_name}
-        onChange={(e) => handleLoginInput("first_name", e.target.value)}
-        placeholder="First Name"
-        required
-      /> */}
-      {/* <input
-        type="text"
-        id="last_name"
-        name="last_name"
-        value={registerData.last_name}
-        onChange={(e) => handleLoginInput("last_name", e.target.value)}
-        placeholder="Last Name"
-        required
-      /> */}
-      {/* <input
-        type="email"
-        id="email"
-        name="email"
-        value={registerData.email}
-        onChange={(e) => handleLoginInput("email", e.target.value)}
-        placeholder="Email"
-        required
-      /> */}
       <PasswordInput
         value={registerData.password}
         onChange={(e) => handleLoginInput("password", e.target.value)}
       />
-      <p>
-        By creating an account, you agree to our{" "}
-        <Link to="/privacy-policy">Privacy Policy and Terms.</Link>
-      </p>
-      <button type="submit" disabled="">
+      <span className="text-xs mb-1">
+        By creating an account, you agree to our
+        <br />
+        <Link to="/privacy-policy" className="text-xs">
+          Privacy Policy and Terms.
+        </Link>
+      </span>
+      <Button type="submit" size="sm" className="w-full my-1">
         Register
-      </button>
-      <p>
+      </Button>
+      <p className="text-xs">
         Already a member?
         <span
+          className="cursor-pointer hover:underline"
           onClick={() => {
             setLogInData((prevState) => ({
               ...prevState,

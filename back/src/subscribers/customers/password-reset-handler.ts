@@ -1,36 +1,39 @@
-// src/subscribers/customer-password-reset-handler.js
-const { type, SubscriberArgs, SubscriberConfig } = require("@medusajs/medusa");
+// src/subscribers/password-reset-handler.ts
+import { EventBusService } from "@medusajs/medusa";
+import sgMail from '@sendgrid/mail';
 
-async function customerPasswordResetHandler({ data, eventName, container }) {
-  const sendGridService = container.resolve("sendGridService");
-  const { customer_id, token } = data;
+// Set your SendGrid API Key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  // Retrieve the customer's email from the database
-  const customerService = container.resolve("customerService");
-  const customer = await customerService.retrieve(customer_id);
+export default (container) => {
+  const eventBus: EventBusService = container.resolve("eventBusService");
 
-  // Construct the password reset URL
-  const passwordResetUrl = `http://localhost:5174/new-password?token=${token}`;
+  const sendPasswordResetEmail = async (event) => {
+    const { id, email, token } = event;
 
-  // Send the email with SendGrid
-  await sendGridService.sendEmail({
-    to: customer.email,
+    // Construct the reset password URL
+    const resetPasswordUrl = `http://localhost:5174/new-password?token=${token}`;
+
+
+  // Prepare the email message using SendGrid template
+  const msg = {
+    to: email,
     from: process.env.SENDGRID_FROM,
     templateId: process.env.SENDGRID_CUSTOMER_PASSWORD_RESET_ID,
-    dynamicTemplateData: {
-      passwordResetUrl,
+    dynamic_template_data: {
+      resetPasswordUrl,
     },
-  });
+  };
+
+  // Send the email
+  try {
+    await sgMail.send(msg);
+    console.log('Password reset email sent successfully');
+  } catch (error) {
+    console.error('Error sending password reset email', error);
+    throw error;
+  }
 }
 
-const config = {
-  event: "customer.password_reset",
-  context: {
-    subscriberId: "customer-password-reset-handler",
-  },
-};
-
-module.exports = {
-  default: customerPasswordResetHandler,
-  config,
+eventBus.subscribe("customer.password_reset", sendPasswordResetEmail);
 };

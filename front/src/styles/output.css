@@ -649,9 +649,18 @@ body {
 .ml-auto {
   margin-left: auto;
 }
+.mt-2 {
+  margin-top: 0.5rem;
+}
 
 .mt-4 {
   margin-top: 1rem;
+}
+.mt-6 {
+  margin-top: 1.5rem;
+}
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .flex {
@@ -740,6 +749,18 @@ body {
 
 .w-21 {
   width: 21.875rem;
+}
+.w-64 {
+  width: 16rem;
+}
+.w-72 {
+  width: 18rem;
+}
+.w-80 {
+  width: 20rem;
+}
+.w-3\4 {
+  width: 75%;
 }
 
 .w-full {
@@ -933,7 +954,9 @@ body {
 .pl-8 {
   padding-left: 2rem;
 }
-
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
 .pb-4 {
   padding-bottom: 1rem;
 }

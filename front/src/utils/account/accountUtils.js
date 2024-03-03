@@ -6,6 +6,7 @@ import {
   updateShippingAddress,
   deleteShippingAddress,
   updateProfile,
+  changePassword,
 } from "../../api/accountOperations";
 import { addCountryUtil } from "./countryUtils";
 import { removeMessage } from "../common/genralUtils";
@@ -215,6 +216,23 @@ const updateProfileUtil = async (
   }
 };
 
+const updatePasswordUtil = async (
+  password,
+  user,
+  setAccountMessage,
+  setPassword,
+) => {
+  try {
+    await changePassword(password, user);
+    setAccountMessage("Password reset successful");
+    removeMessage(setAccountMessage);
+    setPassword("");
+  } catch (error) {
+    setAccountMessage("Password reset failed");
+    removeMessage(setAccountMessage);
+  }
+};
+
 const logOutUtil = async (
   setUser,
   setFormData,
@@ -269,5 +287,6 @@ export {
   updateAddressUtil,
   deleteAddressUtil,
   updateProfileUtil,
+  updatePasswordUtil,
   updateFormUtil,
 };

@@ -17,6 +17,9 @@ export default function Dashboard({
   handleUpdateAddress,
   handleUpdateProfile,
   accountMessage,
+  handleUpdatePassword,
+  password,
+  setPassword,
 }) {
   const [activeSection, setActiveSection] = useState(null);
 
@@ -58,6 +61,9 @@ export default function Dashboard({
         setAccountData={setAccountData}
         selectedData={selectedData}
         setSelectedData={setSelectedData}
+        handleUpdatePassword={handleUpdatePassword}
+        password={password}
+        setPassword={setPassword}
       />
 
       <Addresses

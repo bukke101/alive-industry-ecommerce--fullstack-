@@ -14,6 +14,7 @@ import {
   updateAddressUtil,
   updateProfileUtil,
   updateFormUtil,
+  updatePasswordUtil,
 } from "../utils/account/accountUtils";
 export default function Account() {
   const {
@@ -32,10 +33,12 @@ export default function Account() {
   const cartId = cart?.id;
 
   const [accountMessage, setAccountMessage] = useState("");
+  const [password, setPassword] = useState("");
   const [selectedData, setSelectedData] = useState({
     selectedOrder: null,
     selectedAddress: null,
     profile: false,
+    password: false,
   });
 
   const handleRegister = async (e) => {
@@ -113,6 +116,12 @@ export default function Account() {
       setSelectedData,
     );
   };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    await updatePasswordUtil(password, user, setAccountMessage, setPassword);
+  };
+
   return (
     <>
       {!logInData.loggedIn ? (
@@ -140,6 +149,9 @@ export default function Account() {
           user={user}
           handleUpdateProfile={handleUpdateProfile}
           accountMessage={accountMessage}
+          handleUpdatePassword={handleUpdatePassword}
+          password={password}
+          setPassword={setPassword}
         />
       )}
     </>

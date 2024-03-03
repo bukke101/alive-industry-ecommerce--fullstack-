@@ -133,7 +133,7 @@ const updateProfile = async (accountData, setUser, setAccountData) => {
     }));
     return response.customer;
   } catch (error) {
-    console.error("Error updating progile:", error);
+    console.error("Error updating profile:", error);
     throw error;
   }
 };
@@ -143,6 +143,20 @@ const logOutUser = async () => {
     await medusa.auth.deleteSession();
   } catch (error) {
     console.error("Error logging out:", error);
+    throw error;
+  }
+};
+
+const changePassword = async (password, user) => {
+  try {
+    await medusa.customers.update({
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      password: password,
+    });
+  } catch (error) {
+    console.error("Error changing password:", error);
     throw error;
   }
 };
@@ -180,6 +194,7 @@ export {
   updateShippingAddress,
   deleteShippingAddress,
   updateProfile,
+  changePassword,
   generatePasswordToken,
   resetPassword,
 };
